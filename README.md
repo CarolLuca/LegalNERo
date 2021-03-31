@@ -1,2 +1,2 @@
 # CaroL
-Named Entity Recognition for Romanian Legal Domain
+Named Entity Recognition in Romanian Legal Domain
