@@ -1,0 +1,1 @@
+Accommodation folder contains a series of codes that were used for understanding SpaCy usage and developing trivial custom english models.
