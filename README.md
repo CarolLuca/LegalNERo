@@ -24,7 +24,7 @@ SpaCy’s tagger, parser, text categorizer and many other components are powered
 
 Training is an iterative process in which the model’s predictions are compared against the reference annotations in order to estimate the gradient of the loss. The gradient of the loss is then used to calculate the gradient of the weights through backpropagation. The gradients indicate how the weight values should be changed so that the model’s predictions become more similar to the reference labels over time.
 
-![image](https://user-images.githubusercontent.com/44003293/114922128-fff99700-9e33-11eb-8e73-ecbcbdc25abe.png)
+![image](https://user-images.githubusercontent.com/44003293/114925003-3ab0fe80-9e37-11eb-8417-2016202a08d4.png)
 
 * Training data: Examples and their annotations.
 * Text: The input text the model should predict a label for.
@@ -38,7 +38,7 @@ This also means that in order to know how the model is performing, and whether i
 ### Language processing pipelines
 When you call nlp on a text, spaCy first tokenizes the text to produce a Doc object. The Doc is then processed in several different steps – this is also referred to as the processing pipeline. The pipeline used by the default models consists of a tagger, a parser and an entity recognizer. Each pipeline component returns the processed Doc, which is then passed on to the next component.
 
-![image](https://user-images.githubusercontent.com/44003293/114922595-8ada9180-9e34-11eb-8816-6ac3b3e46cf7.png)
+![image](https://user-images.githubusercontent.com/44003293/114925043-46042a00-9e37-11eb-9893-4b920010f592.png)
 
 * Name: ID of the pipeline component.
 * Component: spaCy’s implementation of the component.
