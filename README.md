@@ -11,6 +11,7 @@ This repository is divided as follows:
 * Accommodation - tries before the actual model
 * Stage 0 - first functional model with no special training technics
 * Behind the model - detailed explanations regarding the model functionality
+
 Every folder contains its own Description.md file in which the content is resumed.
 
 ## Accommodation
