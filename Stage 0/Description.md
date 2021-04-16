@@ -3,7 +3,7 @@ This stage represents the construction of the first functional model.
 
 The file stage_0.ipynb contains the Python code that creates and tests the model.
 
-The file pfr_0.xlsx contains the pfr-values for the model in stage 0 (sheet 0_TD_x for data set x, with x between 1 and 2).
+The file prf_0.xlsx contains the prf-values for the model in stage 0 (sheet 0_TD_x for data set x, with x between 1 and 2).
 
 As it can be seen from the code, the pfr-values are guaranteed for short sentences (maximum 5 words) with 1 or 2 entities.
 
