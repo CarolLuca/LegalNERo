@@ -140,4 +140,567 @@ print(nlp.pipeline)
 print(nlp.pipe_names)
 # ['tagger', 'parser', 'ner']
 ```
+### Built-in pipeline components
+spaCy ships with several built-in pipeline components that are also available in the Language.factories. This means that you can initialize them by calling nlp.create_pipe with their string names and require them in the pipeline settings in your model’s meta.json.
 
+Usage:
+
+```python
+# Option 1: Import and initialize
+from spacy.pipeline import EntityRuler
+ruler = EntityRuler(nlp)
+nlp.add_pipe(ruler)
+
+# Option 2: Using nlp.create_pipe
+sentencizer = nlp.create_pipe("sentencizer")
+nlp.add_pipe(sentencizer)
+```
+![image](https://user-images.githubusercontent.com/44003293/114986168-57cbe880-9e9c-11eb-83d4-e5c77f54971c.png)
+
+### Disabling and modifying pipeline components
+If you don’t need a particular component of the pipeline – for example, the tagger or the parser, you can disable loading it. This can sometimes make a big difference and improve loading speed. Disabled component names can be provided to spacy.load, Language.from_disk or the nlp object itself as a list:
+
+Disable loading:
+
+```python
+nlp = spacy.load("en_core_web_sm", disable=["tagger", "parser"])
+nlp = English().from_disk("/model", disable=["ner"])
+```
+If you only need a Doc object with named entities, there’s no need to run all pipeline components on it – that can potentially make processing much slower. Instead, you can use the disable keyword argument on nlp.pipe to temporarily disable the components during processing:
+
+Disable for processing:
+
+```python
+for doc in nlp.pipe(texts, disable=["tagger", "parser"]):
+    # Do something with the doc here
+```
+If you need to execute more code with components disabled – e.g. to reset the weights or update only some components during training – you can use the nlp.disable_pipes contextmanager. At the end of the with block, the disabled pipeline components will be restored automatically. Alternatively, disable_pipes returns an object that lets you call its restore() method to restore the disabled components when needed.
+
+Disable for block:
+
+```python
+# 1. Use as a contextmanager
+with nlp.disable_pipes("tagger", "parser"):
+    doc = nlp("I won't be tagged and parsed")
+doc = nlp("I will be tagged and parsed")
+
+# 2. Restore manually
+disabled = nlp.disable_pipes("ner")
+doc = nlp("I won't have named entities")
+disabled.restore()
+```
+Finally, you can also use the remove_pipe method to remove pipeline components from an existing pipeline, the rename_pipe method to rename them, or the replace_pipe method to replace them with a custom component entirely.
+
+```python
+nlp.remove_pipe("parser")
+nlp.rename_pipe("ner", "entityrecognizer")
+nlp.replace_pipe("tagger", my_custom_tagger)
+```
+### Creating custom pipeline components
+A component receives a Doc object and can modify it – for example, by using the current weights to make a prediction and set some annotation on the document. By adding a component to the pipeline, you’ll get access to the Doc at any point during processing – instead of only being able to modify it afterwards.
+
+Example:
+
+```python
+def my_component(doc):
+   # do something to the doc here
+   return doc
+```
+
+![image](https://user-images.githubusercontent.com/44003293/114986753-0ff99100-9e9d-11eb-87c4-ba9abdc47ea6.png)
+
+Custom components can be added to the pipeline using the add_pipe method. Optionally, you can either specify a component to add it before or after, tell spaCy to add it first or last in the pipeline, or define a custom name. If no name is set and no name attribute is present on your component, the function name is used.
+
+Example:
+
+```python
+nlp.add_pipe(my_component)
+nlp.add_pipe(my_component, first=True)
+nlp.add_pipe(my_component, before="parser")
+```
+![image](https://user-images.githubusercontent.com/44003293/114986941-46cfa700-9e9d-11eb-8db3-02f4e60703d3.png)
+
+### Example: Pipeline component for entity matching and tagging with custom attributes
+This example shows how to create a spaCy extension that takes a terminology list (in this case, single- and multi-word company names), matches the occurrences in a document, labels them as ORG entities, merges the tokens and sets custom is_tech_org and has_tech_org attributes. For efficient matching, the example uses the PhraseMatcher which accepts Doc objects as match patterns and works well for large terminology lists. It also ensures your patterns will always match, even when you customize spaCy’s tokenization rules. When you call nlp on a text, the custom pipeline component is applied to the Doc.
+
+Link: https://github.com/explosion/spaCy/blob/v2.x/examples/pipeline/custom_component_entities.py
+```python
+#!/usr/bin/env python
+# coding: utf8
+"""Example of a spaCy v2.0 pipeline component that sets entity annotations
+based on list of single or multiple-word company names. Companies are
+labelled as ORG and their spans are merged into one token. Additionally,
+._.has_tech_org and ._.is_tech_org is set on the Doc/Span and Token
+respectively.
+
+* Custom pipeline components: https://spacy.io//usage/processing-pipelines#custom-components
+
+Compatible with: spaCy v2.0.0+
+Last tested with: v2.1.0
+"""
+from __future__ import unicode_literals, print_function
+
+import plac
+from spacy.lang.en import English
+from spacy.matcher import PhraseMatcher
+from spacy.tokens import Doc, Span, Token
+
+
+@plac.annotations(
+    text=("Text to process", "positional", None, str),
+    companies=("Names of technology companies", "positional", None, str),
+)
+def main(text="Alphabet Inc. is the company behind Google.", *companies):
+    # For simplicity, we start off with only the blank English Language class
+    # and no model or pre-defined pipeline loaded.
+    nlp = English()
+    if not companies:  # set default companies if none are set via args
+        companies = ["Alphabet Inc.", "Google", "Netflix", "Apple"]  # etc.
+    component = TechCompanyRecognizer(nlp, companies)  # initialise component
+    nlp.add_pipe(component, last=True)  # add last to the pipeline
+
+    doc = nlp(text)
+    print("Pipeline", nlp.pipe_names)  # pipeline contains component name
+    print("Tokens", [t.text for t in doc])  # company names from the list are merged
+    print("Doc has_tech_org", doc._.has_tech_org)  # Doc contains tech orgs
+    print("Token 0 is_tech_org", doc[0]._.is_tech_org)  # "Alphabet Inc." is a tech org
+    print("Token 1 is_tech_org", doc[1]._.is_tech_org)  # "is" is not
+    print("Entities", [(e.text, e.label_) for e in doc.ents])  # all orgs are entities
+
+
+class TechCompanyRecognizer(object):
+    """Example of a spaCy v2.0 pipeline component that sets entity annotations
+    based on list of single or multiple-word company names. Companies are
+    labelled as ORG and their spans are merged into one token. Additionally,
+    ._.has_tech_org and ._.is_tech_org is set on the Doc/Span and Token
+    respectively."""
+
+    name = "tech_companies"  # component name, will show up in the pipeline
+
+    def __init__(self, nlp, companies=tuple(), label="ORG"):
+        """Initialise the pipeline component. The shared nlp instance is used
+        to initialise the matcher with the shared vocab, get the label ID and
+        generate Doc objects as phrase match patterns.
+        """
+        self.label = nlp.vocab.strings[label]  # get entity label ID
+
+        # Set up the PhraseMatcher – it can now take Doc objects as patterns,
+        # so even if the list of companies is long, it's very efficient
+        patterns = [nlp(org) for org in companies]
+        self.matcher = PhraseMatcher(nlp.vocab)
+        self.matcher.add("TECH_ORGS", None, *patterns)
+
+        # Register attribute on the Token. We'll be overwriting this based on
+        # the matches, so we're only setting a default value, not a getter.
+        Token.set_extension("is_tech_org", default=False)
+
+        # Register attributes on Doc and Span via a getter that checks if one of
+        # the contained tokens is set to is_tech_org == True.
+        Doc.set_extension("has_tech_org", getter=self.has_tech_org)
+        Span.set_extension("has_tech_org", getter=self.has_tech_org)
+
+    def __call__(self, doc):
+        """Apply the pipeline component on a Doc object and modify it if matches
+        are found. Return the Doc, so it can be processed by the next component
+        in the pipeline, if available.
+        """
+        matches = self.matcher(doc)
+        spans = []  # keep the spans for later so we can merge them afterwards
+        for _, start, end in matches:
+            # Generate Span representing the entity & set label
+            entity = Span(doc, start, end, label=self.label)
+            spans.append(entity)
+            # Set custom attribute on each token of the entity
+            for token in entity:
+                token._.set("is_tech_org", True)
+            # Overwrite doc.ents and add entity – be careful not to replace!
+            doc.ents = list(doc.ents) + [entity]
+        for span in spans:
+            # Iterate over all spans and merge them into one token. This is done
+            # after setting the entities – otherwise, it would cause mismatched
+            # indices!
+            span.merge()
+        return doc  # don't forget to return the Doc!
+
+    def has_tech_org(self, tokens):
+        """Getter for Doc and Span attributes. Returns True if one of the tokens
+        is a tech org. Since the getter is only called when we access the
+        attribute, we can refer to the Token's 'is_tech_org' attribute here,
+        which is already set in the processing step."""
+        return any([t._.get("is_tech_org") for t in tokens])
+
+
+if __name__ == "__main__":
+    plac.call(main)
+
+    # Expected output:
+    # Pipeline ['tech_companies']
+    # Tokens ['Alphabet Inc.', 'is', 'the', 'company', 'behind', 'Google', '.']
+    # Doc has_tech_org True
+    # Token 0 is_tech_org True
+    # Token 1 is_tech_org False
+    # Entities [('Alphabet Inc.', 'ORG'), ('Google', 'ORG')]
+```
+Wrapping this functionality in a pipeline component allows you to reuse the module with different settings, and have all pre-processing taken care of when you call nlp on your text and receive a Doc object.
+
+### Word Vectors and Semantic Similarity
+Similarity is determined by comparing word vectors or “word embeddings”, multi-dimensional meaning representations of a word. Word vectors can be generated using an algorithm like word2vec and usually look like this:
+
+"banana.vector":
+
+```python
+array([2.02280000e-01,  -7.66180009e-02,   3.70319992e-01,
+       3.28450017e-02,  -4.19569999e-01,   7.20689967e-02,
+      -3.74760002e-01,   5.74599989e-02,  -1.24009997e-02,
+       5.29489994e-01,  -5.23800015e-01,  -1.97710007e-01,
+      -3.41470003e-01,   5.33169985e-01,  -2.53309999e-02,
+       1.73800007e-01,   1.67720005e-01,   8.39839995e-01,
+       5.51070012e-02,   1.05470002e-01,   3.78719985e-01,
+       2.42750004e-01,   1.47449998e-02,   5.59509993e-01,
+       1.25210002e-01,  -6.75960004e-01,   3.58420014e-01,
+       # ... and so on ...
+       3.66849989e-01,   2.52470002e-03,  -6.40089989e-01,
+      -2.97650009e-01,   7.89430022e-01,   3.31680000e-01,
+      -1.19659996e+00,  -4.71559986e-02,   5.31750023e-01], dtype=float32)
+```
+Training word vectors (by spaCy):
+
+```
+Dense, real valued vectors representing distributional similarity information are now a cornerstone of practical NLP. The most common way to train these vectors is the Word2vec family of algorithms. If you need to train a word2vec model, we recommend the implementation in the Python library Gensim.
+```
+Models that come with built-in word vectors make them available as the Token.vector attribute. Doc.vector and Span.vector will default to an average of their token vectors. You can also check if a token has a vector assigned, and get the L2 norm, which can be used to normalize vectors.
+
+```python
+import spacy
+
+nlp = spacy.load("en_core_web_md")
+tokens = nlp("dog cat banana afskfsd")
+
+for token in tokens:
+    print(token.text, token.has_vector, token.vector_norm, token.is_oov)
+```
+The words “dog”, “cat” and “banana” are all pretty common in English, so they’re part of the model’s vocabulary, and come with a vector. The word “afskfsd” on the other hand is a lot less common and out-of-vocabulary – so its vector representation consists of 300 dimensions of 0, which means it’s practically nonexistent. If your application will benefit from a large vocabulary with more vectors, you should consider using one of the larger models or loading in a full vector package, for example, en_vectors_web_lg, which includes over 1 million unique vectors.
+
+```
+    Text: The original token text.
+    has vector: Does the token have a vector representation?
+    Vector norm: The L2 norm of the token’s vector (the square root of the sum of the values squared)
+    OOV: Out-of-vocabulary
+```
+spaCy is able to compare two objects, and make a prediction of how similar they are. Predicting similarity is useful for building recommendation systems or flagging duplicates. For example, you can suggest a user content that’s similar to what they’re currently looking at, or label a support ticket as a duplicate if it’s very similar to an already existing one.
+
+Each Doc, Span and Token comes with a .similarity() method that lets you compare it with another object, and determine the similarity. Of course similarity is always subjective – whether “dog” and “cat” are similar really depends on how you’re looking at it. spaCy’s similarity model usually assumes a pretty general-purpose definition of similarity.
+
+```python
+import spacy
+
+nlp = spacy.load("en_core_web_md")  # make sure to use larger model!
+tokens = nlp("dog cat banana")
+
+for token1 in tokens:
+    for token2 in tokens:
+        print(token1.text, token2.text, token1.similarity(token2))
+```
+In this case, the model’s predictions are pretty on point. A dog is very similar to a cat, whereas a banana is not very similar to either of them. Identical tokens are obviously 100% similar to each other (just not always exactly 1.0, because of vector math and floating point imprecisions).
+
+### Customizing word vectors
+Word vectors let you import knowledge from raw text into your model. The knowledge is represented as a table of numbers, with one row per term in your vocabulary. If two terms are used in similar contexts, the algorithm that learns the vectors should assign them rows that are quite similar, while words that are used in different contexts will have quite different values. This lets you use the row-values assigned to the words as a kind of dictionary, to tell you some things about what the words in your text mean.
+
+Word vectors are particularly useful for terms which aren’t well represented in your labelled training data. For instance, if you’re doing named entity recognition, there will always be lots of names that you don’t have examples of. For instance, imagine your training data happens to contain some examples of the term “Microsoft”, but it doesn’t contain any examples of the term “Symantec”. In your raw text sample, there are plenty of examples of both terms, and they’re used in similar contexts. The word vectors make that fact available to the entity recognition model. It still won’t see examples of “Symantec” labelled as a company. However, it’ll see that “Symantec” has a word vector that usually corresponds to company terms, so it can make the inference.
+
+In order to make best use of the word vectors, you want the word vectors table to cover a very large vocabulary. However, most words are rare, so most of the rows in a large word vectors table will be accessed very rarely, or never at all. You can usually cover more than 95% of the tokens in your corpus with just a few thousand rows in the vector table. However, it’s those 5% of rare terms where the word vectors are most useful. The problem is that increasing the size of the vector table produces rapidly diminishing returns in coverage over these rare terms.
+
+### Training the named entity recognizer
+All spaCy models support online learning, so you can update a pretrained model with new examples. You’ll usually need to provide many examples to meaningfully improve the system — a few hundred is a good start, although more is better.
+
+You should avoid iterating over the same few examples multiple times, or the model is likely to “forget” how to annotate other examples. If you iterate over the same few examples, you’re effectively changing the loss function. The optimizer will find a way to minimize the loss on your examples, without regard for the consequences on the examples it’s no longer paying attention to. One way to avoid this “catastrophic forgetting” problem (https://explosion.ai/blog/pseudo-rehearsal-catastrophic-forgetting) is to “remind” the model of other examples by augmenting your annotations with sentences annotated with entities automatically recognized by the original model. Ultimately, this is an empirical process: you’ll need to experiment on your data to find a solution that works best for you.
+
+### Updating the Named Entity Recognizer
+This example shows how to update spaCy’s entity recognizer with your own examples, starting off with an existing, pretrained model, or from scratch using a blank Language class. To do this, you’ll need example texts and the character offsets and labels of each entity contained in the texts.
+
+Link: https://github.com/explosion/spaCy/blob/v2.x/examples/training/train_ner.py
+
+```python
+#!/usr/bin/env python
+# coding: utf8
+"""Example of training spaCy's named entity recognizer, starting off with an
+existing model or a blank model.
+
+For more details, see the documentation:
+* Training: https://spacy.io/usage/training
+* NER: https://spacy.io/usage/linguistic-features#named-entities
+
+Compatible with: spaCy v2.0.0+
+Last tested with: v2.2.4
+"""
+from __future__ import unicode_literals, print_function
+
+import plac
+import random
+import warnings
+from pathlib import Path
+import spacy
+from spacy.util import minibatch, compounding
+
+
+# training data
+TRAIN_DATA = [
+    ("Who is Shaka Khan?", {"entities": [(7, 17, "PERSON")]}),
+    ("I like London and Berlin.", {"entities": [(7, 13, "LOC"), (18, 24, "LOC")]}),
+]
+
+
+@plac.annotations(
+    model=("Model name. Defaults to blank 'en' model.", "option", "m", str),
+    output_dir=("Optional output directory", "option", "o", Path),
+    n_iter=("Number of training iterations", "option", "n", int),
+)
+def main(model=None, output_dir=None, n_iter=100):
+    """Load the model, set up the pipeline and train the entity recognizer."""
+    if model is not None:
+        nlp = spacy.load(model)  # load existing spaCy model
+        print("Loaded model '%s'" % model)
+    else:
+        nlp = spacy.blank("en")  # create blank Language class
+        print("Created blank 'en' model")
+
+    # create the built-in pipeline components and add them to the pipeline
+    # nlp.create_pipe works for built-ins that are registered with spaCy
+    if "ner" not in nlp.pipe_names:
+        ner = nlp.create_pipe("ner")
+        nlp.add_pipe(ner, last=True)
+    # otherwise, get it so we can add labels
+    else:
+        ner = nlp.get_pipe("ner")
+
+    # add labels
+    for _, annotations in TRAIN_DATA:
+        for ent in annotations.get("entities"):
+            ner.add_label(ent[2])
+
+    # get names of other pipes to disable them during training
+    pipe_exceptions = ["ner", "trf_wordpiecer", "trf_tok2vec"]
+    other_pipes = [pipe for pipe in nlp.pipe_names if pipe not in pipe_exceptions]
+    # only train NER
+    with nlp.disable_pipes(*other_pipes), warnings.catch_warnings():
+        # show warnings for misaligned entity spans once
+        warnings.filterwarnings("once", category=UserWarning, module='spacy')
+
+        # reset and initialize the weights randomly – but only if we're
+        # training a new model
+        if model is None:
+            nlp.begin_training()
+        for itn in range(n_iter):
+            random.shuffle(TRAIN_DATA)
+            losses = {}
+            # batch up the examples using spaCy's minibatch
+            batches = minibatch(TRAIN_DATA, size=compounding(4.0, 32.0, 1.001))
+            for batch in batches:
+                texts, annotations = zip(*batch)
+                nlp.update(
+                    texts,  # batch of texts
+                    annotations,  # batch of annotations
+                    drop=0.5,  # dropout - make it harder to memorise data
+                    losses=losses,
+                )
+            print("Losses", losses)
+
+    # test the trained model
+    for text, _ in TRAIN_DATA:
+        doc = nlp(text)
+        print("Entities", [(ent.text, ent.label_) for ent in doc.ents])
+        print("Tokens", [(t.text, t.ent_type_, t.ent_iob) for t in doc])
+
+    # save model to output directory
+    if output_dir is not None:
+        output_dir = Path(output_dir)
+        if not output_dir.exists():
+            output_dir.mkdir()
+        nlp.to_disk(output_dir)
+        print("Saved model to", output_dir)
+
+        # test the saved model
+        print("Loading from", output_dir)
+        nlp2 = spacy.load(output_dir)
+        for text, _ in TRAIN_DATA:
+            doc = nlp2(text)
+            print("Entities", [(ent.text, ent.label_) for ent in doc.ents])
+            print("Tokens", [(t.text, t.ent_type_, t.ent_iob) for t in doc])
+
+
+if __name__ == "__main__":
+    plac.call(main)
+
+    # Expected output:
+    # Entities [('Shaka Khan', 'PERSON')]
+    # Tokens [('Who', '', 2), ('is', '', 2), ('Shaka', 'PERSON', 3),
+    # ('Khan', 'PERSON', 1), ('?', '', 2)]
+    # Entities [('London', 'LOC'), ('Berlin', 'LOC')]
+    # Tokens [('I', '', 2), ('like', '', 2), ('London', 'LOC', 3),
+    # ('and', '', 2), ('Berlin', 'LOC', 3), ('.', '', 2)]
+
+```
+#### Step by step guide
+* Load the model you want to start with, or create an empty model using spacy.blank with the ID of your language. If you’re using a blank model, don’t forget to add the entity recognizer to the pipeline. If you’re using an existing model, make sure to disable all other pipeline components during training using nlp.disable_pipes. This way, you’ll only be training the entity recognizer.
+* Shuffle and loop over the examples. For each example, update the model by calling nlp.update, which steps through the words of the input. At each word, it makes a prediction. It then consults the annotations to see whether it was right. If it was wrong, it adjusts its weights so that the correct action will score higher next time.
+* Save the trained model using nlp.to_disk.
+* Test the model to make sure the entities in the training data are recognized correctly.
+
+### Training an additional entity type
+This script shows how to add a new entity type ANIMAL to an existing pretrained NER model, or an empty Language class. To keep the example short and simple, only a few sentences are provided as examples. In practice, you’ll need many more — a few hundred would be a good start. You will also likely need to mix in examples of other entity types, which might be obtained by running the entity recognizer over unlabelled sentences, and adding their annotations to the training set.
+
+Link: https://github.com/explosion/spaCy/blob/v2.x/examples/training/train_new_entity_type.py
+
+```python
+#!/usr/bin/env python
+# coding: utf8
+"""Example of training an additional entity type
+
+This script shows how to add a new entity type to an existing pretrained NER
+model. To keep the example short and simple, only four sentences are provided
+as examples. In practice, you'll need many more — a few hundred would be a
+good start. You will also likely need to mix in examples of other entity
+types, which might be obtained by running the entity recognizer over unlabelled
+sentences, and adding their annotations to the training set.
+
+The actual training is performed by looping over the examples, and calling
+`nlp.entity.update()`. The `update()` method steps through the words of the
+input. At each word, it makes a prediction. It then consults the annotations
+provided on the GoldParse instance, to see whether it was right. If it was
+wrong, it adjusts its weights so that the correct action will score higher
+next time.
+
+After training your model, you can save it to a directory. We recommend
+wrapping models as Python packages, for ease of deployment.
+
+For more details, see the documentation:
+* Training: https://spacy.io/usage/training
+* NER: https://spacy.io/usage/linguistic-features#named-entities
+
+Compatible with: spaCy v2.1.0+
+Last tested with: v2.2.4
+"""
+from __future__ import unicode_literals, print_function
+
+import plac
+import random
+import warnings
+from pathlib import Path
+import spacy
+from spacy.util import minibatch, compounding
+
+
+# new entity label
+LABEL = "ANIMAL"
+
+# training data
+# Note: If you're using an existing model, make sure to mix in examples of
+# other entity types that spaCy correctly recognized before. Otherwise, your
+# model might learn the new type, but "forget" what it previously knew.
+# https://explosion.ai/blog/pseudo-rehearsal-catastrophic-forgetting
+TRAIN_DATA = [
+    (
+        "Horses are too tall and they pretend to care about your feelings",
+        {"entities": [(0, 6, LABEL)]},
+    ),
+    ("Do they bite?", {"entities": []}),
+    (
+        "horses are too tall and they pretend to care about your feelings",
+        {"entities": [(0, 6, LABEL)]},
+    ),
+    ("horses pretend to care about your feelings", {"entities": [(0, 6, LABEL)]}),
+    (
+        "they pretend to care about your feelings, those horses",
+        {"entities": [(48, 54, LABEL)]},
+    ),
+    ("horses?", {"entities": [(0, 6, LABEL)]}),
+]
+
+
+@plac.annotations(
+    model=("Model name. Defaults to blank 'en' model.", "option", "m", str),
+    new_model_name=("New model name for model meta.", "option", "nm", str),
+    output_dir=("Optional output directory", "option", "o", Path),
+    n_iter=("Number of training iterations", "option", "n", int),
+)
+def main(model=None, new_model_name="animal", output_dir=None, n_iter=30):
+    """Set up the pipeline and entity recognizer, and train the new entity."""
+    random.seed(0)
+    if model is not None:
+        nlp = spacy.load(model)  # load existing spaCy model
+        print("Loaded model '%s'" % model)
+    else:
+        nlp = spacy.blank("en")  # create blank Language class
+        print("Created blank 'en' model")
+    # Add entity recognizer to model if it's not in the pipeline
+    # nlp.create_pipe works for built-ins that are registered with spaCy
+    if "ner" not in nlp.pipe_names:
+        ner = nlp.create_pipe("ner")
+        nlp.add_pipe(ner)
+    # otherwise, get it, so we can add labels to it
+    else:
+        ner = nlp.get_pipe("ner")
+
+    ner.add_label(LABEL)  # add new entity label to entity recognizer
+    # Adding extraneous labels shouldn't mess anything up
+    ner.add_label("VEGETABLE")
+    if model is None:
+        optimizer = nlp.begin_training()
+    else:
+        optimizer = nlp.resume_training()
+    move_names = list(ner.move_names)
+    # get names of other pipes to disable them during training
+    pipe_exceptions = ["ner", "trf_wordpiecer", "trf_tok2vec"]
+    other_pipes = [pipe for pipe in nlp.pipe_names if pipe not in pipe_exceptions]
+    # only train NER
+    with nlp.disable_pipes(*other_pipes), warnings.catch_warnings():
+        # show warnings for misaligned entity spans once
+        warnings.filterwarnings("once", category=UserWarning, module='spacy')
+
+        sizes = compounding(1.0, 4.0, 1.001)
+        # batch up the examples using spaCy's minibatch
+        for itn in range(n_iter):
+            random.shuffle(TRAIN_DATA)
+            batches = minibatch(TRAIN_DATA, size=sizes)
+            losses = {}
+            for batch in batches:
+                texts, annotations = zip(*batch)
+                nlp.update(texts, annotations, sgd=optimizer, drop=0.35, losses=losses)
+            print("Losses", losses)
+
+    # test the trained model
+    test_text = "Do you like horses?"
+    doc = nlp(test_text)
+    print("Entities in '%s'" % test_text)
+    for ent in doc.ents:
+        print(ent.label_, ent.text)
+
+    # save model to output directory
+    if output_dir is not None:
+        output_dir = Path(output_dir)
+        if not output_dir.exists():
+            output_dir.mkdir()
+        nlp.meta["name"] = new_model_name  # rename model
+        nlp.to_disk(output_dir)
+        print("Saved model to", output_dir)
+
+        # test the saved model
+        print("Loading from", output_dir)
+        nlp2 = spacy.load(output_dir)
+        # Check the classes have loaded back consistently
+        assert nlp2.get_pipe("ner").move_names == move_names
+        doc2 = nlp2(test_text)
+        for ent in doc2.ents:
+            print(ent.label_, ent.text)
+
+
+if __name__ == "__main__":
+    plac.call(main)
+```
+#### Step by step guide
+* Load the model you want to start with, or create an empty model using spacy.blank with the ID of your language. If you’re using a blank model, don’t forget to add the entity recognizer to the pipeline. If you’re using an existing model, make sure to disable all other pipeline components during training using nlp.disable_pipes. This way, you’ll only be training the entity recognizer.
+* Add the new entity label to the entity recognizer using the add_label
+method. You can access the entity recognizer in the pipeline via nlp.get_pipe('ner').
+* Loop over the examples and call nlp.update, which steps through the words of the input. At each word, it makes a prediction. It then consults the annotations, to see whether it was right. If it was wrong, it adjusts its weights so that the correct action will score higher next time.
+* Save the trained model using nlp.to_disk.
+* Test the model to make sure the new entity is recognized correctly
