@@ -2,6 +2,7 @@
 ## Table of contents
 * [Preview](#preview)
 * [Accommodation](#accommodation)
+* [Data Sets](#data-sets)
 * [Stage 0](#stage-0)
 * [Behind the model](#behind-the-model)
 
@@ -15,6 +16,9 @@ This repository is divided as follows:
 Each folder contains its own Description.md file in which the content is resumed.
 
 ## Accommodation
+
+## Data Sets
+This folder contains all the data sets used for this project.
 
 ## Stage 0
 
