@@ -27,6 +27,7 @@
 In this project is developed a named entity recognition model for legal documents in romanian using SpaCy library.
 This repository is divided as follows:
 * Accommodation - tries before the actual model
+* Data Sets - all the data used for the project
 * Stage 0 - first functional model with no special training technics
 * Behind the model - detailed explanations regarding the model functionality
 
