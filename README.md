@@ -21,7 +21,7 @@ Each folder contains its own Description.md file in which the content is resumed
 This folder contains all the data sets used for this project, including two programs for parsing the raw gold data sets.
 
 ## Stage 0
-This is a brief description of the stage 0 model as it follows:
+This is a brief description of the stage 0 model:
 ### Load the model, or create an empty model
 We can create an empty model and train it with our annotated dataset or we can use existing spacy model and re-train with our annotated data.
 
