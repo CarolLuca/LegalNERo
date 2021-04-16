@@ -5,7 +5,19 @@
 * [Accommodation](#accommodation)
 * [Data Sets](#data-sets)
 * [Stage 0](#stage-0)
-* [Behind the model](#behind-the-model)
+  * [Load the model, or create an empty model](#load-the-model,-or-create-an-empty-model)
+  * [Adding Labels or entities](#adding-labels-or-entities)
+  * [Training and updating the model](#training-and-updating-the-model)
+  * [Calculating prf-values](#calculating-prf-values)
+  * [Problems](#problems)
+* [Behind the model](#behind-the-model) 
+  * [Introduction](#introduction)
+  * [Language processing pipelines](#language-processing-pipelines)
+  * [Processing text](#processing-text)
+  * [How pipelines work](#how-pipelines-work)
+  * [Built-in pipeline components](#built-in-pipeline-components)
+  * [Word Vectors and Semantic Similarity](#word-vectors-and-semantic-similarity)
+  * [Training the named entity recognizer](#training-the-named-entity-recognizer)
 
 ## News
 * Stage 1 is coming pretty soon. It will come with the ability of running on longer texts with decent prf-values.
@@ -92,6 +104,9 @@ new_model = nlp
 Spacy has a built-in class to evaluate NER. It's called scorer. Scorer uses exact matching to evaluate NER. The precision score is returned as ents_p, the recall as ents_r and the F1 score as ents_f.
 
 The only problem with that is that it returns the score for all the tags together in the document. However, we can call the function only with the TAG we want and get the desired result.
+### Problems
+* It was not used the model "ro_model_news_lg" because of the differences between spaCy v2.2.4. and v3.0.1. Currently, the model is running on the older version, whereas the romanian model offered by spaCy is compatible only with v3.0.1. Why to use this model? It has a couple of overlapping enitity-types and trained vectors for them. This problem will be fixed in Stage 2.
+* The prf-values are representative for short sentences because there was a problem with the length of phrases from the train data. This problem will be fixed in Stage 1.
 
 ## Behind the model
 ### Introduction
