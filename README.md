@@ -11,7 +11,7 @@
   * [Calculating prf-values](#calculating-prf-values)
   * [Problems](#problems)
 * [Stage 1](#stage-1)
-* [Behind the model](#behind-the-model) 
+* [Behind The Model](#behind-the-model) 
   * [Introduction](#introduction)
   * [Language processing pipelines](#language-processing-pipelines)
   * [Processing text](#processing-text)
@@ -31,7 +31,8 @@ This repository is divided as follows:
 * Accommodation - tries before the actual model
 * Data Sets - all the data used for the project
 * Stage 0 - first functional model with no special training technics
-* Behind the model - detailed explanations regarding the model functionality
+* Stage 1 - under development, will be published before 04/21/2021
+* Behind The Model - detailed explanations regarding the model functionality
 
 Each folder contains its own Description.md file in which the content is resumed.
 
@@ -115,7 +116,7 @@ The only problem with that is that it returns the score for all the tags togethe
 ## Stage 1
 Currently in development. Postponed until 04/21/2021.
 
-## Behind the model
+## Behind The Model
 ### Introduction
 SpaCy’s tagger, parser, text categorizer and many other components are powered by statistical models. Every “decision” these components make – for example, which part-of-speech tag to assign, or whether a word is a named entity – is a prediction based on the model’s current weight values. The weight values are estimated based on examples the model has seen during training. To train a model, you first need training data – examples of text, and the labels you want the model to predict. This could be a part-of-speech tag, a named entity or any other information.
 
