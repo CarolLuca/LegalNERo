@@ -1,6 +1,6 @@
 # Accommodation
 Accommodation folder contains a series of codes that were used for understanding SpaCy usage and developing trivial custom english/romanian models.
-Information may repeat and it may not be relevant to the final project.
+Information may repeat and it may be irrelevant to the final project.
 If you are searching for something specific, the following list might help:
 
 ## Finalized:
