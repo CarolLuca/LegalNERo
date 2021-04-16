@@ -21,6 +21,72 @@ Each folder contains its own Description.md file in which the content is resumed
 This folder contains all the data sets used for this project, including two programs for parsing the raw gold data sets.
 
 ## Stage 0
+This is a brief description of the model as it follows:
+### Load the model, or create an empty model
+We can create an empty model and train it with our annotated dataset or we can use existing spacy model and re-train with our annotated data.
+
+```python
+if model is not None:
+    nlp = spacy.load(model)  # load existing spaCy model
+    print("Loaded model '%s'" % model)
+else:
+    nlp = spacy.blank("en")  # create blank Language class
+    print("Created blank 'en' model")
+
+if 'ner' not in nlp.pipe_names :
+    ner = nlp.create_pipe('ner')
+    nlp.add_pipe(ner, last=True)
+else :
+    ner = nlp.get_pipe("ner")
+```
+* We can create an empty model using spacy.black(“en”) or we can load the existing spacy model using spacy.load(“model_name”)
+* We can check the list of pipeline component names by using nlp.pipe_names() .
+* If  we don’t have the entity recogniser in  the pipeline, we will need to create the ner pipeline component using nlp.create_pipe(“ner”) and add that in our model pipeline by using nlp.add_pipe method.
+### Adding Labels or entities
+```python
+# add labels
+for _, annotations in train_data:
+    for ent in annotations.get('entities'):
+        ner.add_label(ent[2])
+
+other_pipe = [pipe for pipe in nlp.pipe_names if pipe != 'ner']
+
+# Only training NER
+with nlp.disable_pipes(*other_pipe) :
+    if model is None:
+        optimizer = nlp.begin_training()
+    else:
+        optimizer = nlp.resume_training()
+```
+In order to train the model with our annotated data, we need to add the labels (entities) we want to extract from our text.
+
+* We can add the new entity from our annotated data to the entity recogniser using ner.add_label().
+* As we are only focusing on entity extraction, we will disable all other pipeline components to train our model for ner only using nlp.disable_pipes().
+### Training and updating the model
+```python
+for int in range(iteration) :
+    print("Starting iteration" + str(int))
+    random.shuffle(train_data)
+    losses = {}
+
+    for text, annotation in train_data :
+        nlp.update(
+        [text],
+        [annotation],
+        drop = 0.2,
+        sgd = optimizer,
+        losses = losses
+        )
+  #print(losses)
+new_model = nlp
+```
+* We will train our model for a number of iterations so that the model can learn from it effectively.
+* At each iteration, the training data is shuffled to ensure the model doesn’t make any generalisations based on the order of examples.
+* We will update the model for each iteration using  nlp.update(). 
+### Calculating prf-values
+Spacy has a built-in class to evaluate NER. It's called scorer. Scorer uses exact matching to evaluate NER. The precision score is returned as ents_p, the recall as ents_r and the F1 score as ents_f.
+
+The only problem with that is that it returns the score for all the tags together in the document. However, we can call the function only with the TAG we want and get the desired result.
 
 ## Behind the model
 ### Introduction
