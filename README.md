@@ -10,6 +10,7 @@
   * [Training and updating the model](#training-and-updating-the-model)
   * [Calculating prf-values](#calculating-prf-values)
   * [Problems](#problems)
+* [Stage 1](#stage-1)
 * [Behind the model](#behind-the-model) 
   * [Introduction](#introduction)
   * [Language processing pipelines](#language-processing-pipelines)
@@ -20,7 +21,8 @@
   * [Training the named entity recognizer](#training-the-named-entity-recognizer)
 
 ## News
-* Stage 1 is coming pretty soon. It will come with the ability of running on longer texts with decent prf-values.
+* Stage 1 is in development. It is postponed until 04/21/2021.
+* Stage 1 will come with the ability of running on longer texts with decent prf-values.
 * After Stage 1's arrival, it will be an easier way of using the model coded in this project.
 
 ## Preview
@@ -109,6 +111,9 @@ The only problem with that is that it returns the score for all the tags togethe
 ### Problems
 * It was not used the model "ro_model_news_lg" because of the differences between spaCy v2.2.4. and v3.0.1. Currently, the model is running on the older version, whereas the romanian model offered by spaCy is compatible only with v3.0.1. Why to use this model? It has a couple of overlapping enitity-types and trained vectors for them. This problem will be fixed in Stage 2.
 * The prf-values are representative for short sentences because there was a problem with the length of phrases from the train data. This problem will be fixed in Stage 1.
+
+## Stage 1
+Currently in development. Postponed until 04/21/2021.
 
 ## Behind the model
 ### Introduction
