@@ -34,6 +34,7 @@ This repository is divided as follows:
 Each folder contains its own Description.md file in which the content is resumed.
 
 ## Accommodation
+This part of the project has its own directory in which are presented codes that were used in understanding spaCy usage.
 
 ## Data Sets
 This folder contains all the data sets used for this project, including two programs for parsing the raw gold data sets.
