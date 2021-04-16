@@ -1,10 +1,15 @@
 # Named Entity Recognition in Romanian Legal Domain
 ## Table of contents
+* [News](#news)
 * [Preview](#preview)
 * [Accommodation](#accommodation)
 * [Data Sets](#data-sets)
 * [Stage 0](#stage-0)
 * [Behind the model](#behind-the-model)
+
+## News
+* Stage 1 is coming pretty soon. It will come with the ability of running on longer texts with decent prf-values.
+* After Stage 1's arrival, it will be an easier way of using the model coded in this project.
 
 ## Preview
 In this project is developed a named entity recognition model for legal documents in romanian using SpaCy library.
