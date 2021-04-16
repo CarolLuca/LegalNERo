@@ -18,7 +18,7 @@ Each folder contains its own Description.md file in which the content is resumed
 ## Accommodation
 
 ## Data Sets
-This folder contains all the data sets used for this project.
+This folder contains all the data sets used for this project, including two programs for parsing the raw gold data sets.
 
 ## Stage 0
 
