@@ -1,6 +1,5 @@
 # Data Sets
 This folder contains all the data sets used for this project.
-
 If you are searching for something specific, the following list might help:
 
 * Original texts and annotations - "Gold Data"
