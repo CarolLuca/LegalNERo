@@ -11,6 +11,10 @@
   * [Calculating prf-values](#calculating-prf-values)
   * [Problems](#problems)
 * [Stage 1](#stage-1)
+  * [Updates](#updates)
+  * [Remarks](#remarks)
+  * [Problems](#problems)
+* [Stage 2](#stage-2)
 * [Behind The Model](#behind-the-model) 
   * [Introduction](#introduction)
   * [Language processing pipelines](#language-processing-pipelines)
@@ -21,9 +25,8 @@
   * [Training the named entity recognizer](#training-the-named-entity-recognizer)
 
 ## News
-* Stage 1 is in development. It is postponed until 04/21/2021.
-* Stage 1 will come with the ability of running on longer texts with decent prf-values.
-* After Stage 1's arrival, it will be an easier way of using the model coded in this project.
+* Stage 1 is finished and it can be found in the directory with the same name.
+* Stage 2 is planned to be uploaded before 04/28/2021.
 
 ## Preview
 In this project is developed a named entity recognition model for legal documents in romanian using SpaCy library.
@@ -114,7 +117,16 @@ The only problem with that is that it returns the score for all the tags togethe
 * The prf-values are representative for short sentences because there was a problem with the length of phrases from the train data. This problem will be fixed in Stage 1.
 
 ## Stage 1
-Currently in development. Postponed until 04/21/2021.
+### Updates
+* Now it is possible to run the model with decent prf-values for longer texts.
+* The only modifications were related to the train data which was recomposed using two auxiliar projects: "Keep Name and Type" (C++) and "GoodIndex" (Java) - both present in the "Data Sets" directory.
+### Remarks
+* Even though the performance seems to be increased significantly (based on the new prf-values) from Stage 0, it should be kept in mind the fact that the model still has flows.
+### Problems
+* As aforementioned, beginning with Stage 2, for some entities it will also be used the romanian model "ro_core_news_lg".
+
+## Stage 2
+* Will be posted before 04/28/2021.
 
 ## Behind The Model
 ### Introduction
