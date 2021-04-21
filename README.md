@@ -32,9 +32,10 @@
 In this project is developed a named entity recognition model for legal documents in romanian using SpaCy library.
 This repository is divided as follows:
 * Accommodation - tries before the actual model
-* Data Sets - all the data used for the project
-* Stage 0 - first functional model with no special training technics
-* Stage 1 - under development, will be published before 04/21/2021
+* Data Sets - all the data used for the project, including parsing programs
+* Stage 0 - functional model with no special training technics - best for single entity recognition
+* Stage 1 - model supposed to have the ability of running on longer texts
+* Stage 2 - under development, it will be posted until 04/28/2021.
 * Behind The Model - detailed explanations regarding the model functionality
 
 Each folder contains its own Description.md file in which the content is resumed.
