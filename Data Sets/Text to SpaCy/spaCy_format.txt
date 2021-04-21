@@ -1,0 +1,4 @@
+TRAIN_DATA=[
+("Se aprobă transmiterea unor bunuri din infrastructura secundară de irigații aparținând domeniului privat al statului, aflată în administrarea Agenției Naționale de Îmbunătățiri Funciare și situată pe teritoriul Organizației utilizatorilor de apă pentru irigații Grădiștea - Terasă din județul Călărași, în proprietatea acestei organizații, având datele de identificare prevăzute în anexa care face parte integrantă din prezentul ordin, sub condițiile rezolutorii prevăzute de art. 27 alin. (1) din Legea îmbunătățirilor funciare nr. 138 / 2004, republicată, cu modificările și completările ulterioare.",{"entities":[
+(142,185,"ORG"),(293,301,"LOC"),(498,543,"LAW")]})
+]
