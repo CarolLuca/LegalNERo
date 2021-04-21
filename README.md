@@ -127,6 +127,7 @@ The only problem with that is that it returns the score for all the tags togethe
 * As aforementioned, beginning with Stage 2, for some entities it will also be used the romanian model "ro_core_news_lg".
 * Overlapping entities are not allowed. There are still some entities missing from the train data, problem that will be solved in Stage 2.
 * At the moment, the solution would be to train the model independently for every type of entity because they won't overlap and it will be easier to use the "ro_core_news_lg" model for specific types.
+* There is also a problem related to multi-word entities.
 
 ## Stage 2
 * Will be posted before 04/28/2021.
