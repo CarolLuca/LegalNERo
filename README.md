@@ -120,7 +120,7 @@ The only problem with that is that it returns the score for all the tags togethe
 ## Stage 1
 ### Updates
 * Now it is possible to run the model with decent prf-values for longer texts.
-* The only modifications were related to the train data which was recomposed using two auxiliar projects: "Keep Name and Type" (C++) and "GoodIndex" (Java) - both present in the "Data Sets" directory.
+* The only modifications were related to the train data which was recomposed using two auxiliary projects: "Keep Name and Type" (C++) and "GoodIndex" (Java) - both present in the "Data Sets" directory.
 ### Remarks
 * Even though the performance seems to be increased significantly (based on the new prf-values) from Stage 0, it should be kept in mind the fact that the model still has flows.
 ### Problems
