@@ -124,6 +124,8 @@ The only problem with that is that it returns the score for all the tags togethe
 * Even though the performance seems to be increased significantly (based on the new prf-values) from Stage 0, it should be kept in mind the fact that the model still has flows.
 ### Problems
 * As aforementioned, beginning with Stage 2, for some entities it will also be used the romanian model "ro_core_news_lg".
+* Overlapping entities are not allowed. 
+* At the moment, a solution would be to train the model independently for every type of entity because they won't overlap and it will be easier to use the "ro_cor_news_lg" model for specific types.
 
 ## Stage 2
 * Will be posted before 04/28/2021.
