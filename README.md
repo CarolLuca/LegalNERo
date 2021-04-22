@@ -27,6 +27,8 @@
 ## News
 * Stage 1 is finished and it can be found in the directory with the same name.
 * Stage 2 is planned to be uploaded before 04/28/2021.
+* The usage of the "ro_core_news_lg" will be postponed until the final model in order to have prf-values representative for this project's gold data set.
+* The main focus of Stage 2 will be to include the word embeddings offered by CoRoLa.
 
 ## Preview
 In this project is developed a named entity recognition model for legal documents in romanian using SpaCy library.
