@@ -1,0 +1,941 @@
+Microsoft Windows [Version 10.0.19042.928]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Carol Luca\Desktop\Code\RACAI\Stage 2 - v3>python
+Python 3.9.2 (tags/v3.9.2:1a79785, Feb 19 2021, 13:44:55) [MSC v.1928 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import spacy
+>>> nlp1 = spacy.load("./output/model-best") #load the best model
+>>> doc = nlp1("""
+...
+... ORDIN nr. 1.559 din 4 decembrie 2018
+... pentru modificarea anexei nr. 1 la Ordinul președintelui Casei Naționale de Asigurări de Sănătate nr. 141 / 2017 privind aprobarea formularelor specifice pentru verificarea respectării criteriilor de eligibilitate aferente protocoalelor terapeutice pentru medicamentele notate cu (**)1, (**)1Ω și (**)1β în Lista cuprinzând denumirile comune internaționale corespunzătoare medicamentelor de care beneficiază asigurații, cu sau fără contribuție personală, pe bază de prescripție medicală, în sistemul de asigurări sociale de sănătate, precum și denumirile comune internaționale corespunzătoare medicamentelor care se acordă în cadrul programelor naționale de sănătate, aprobată prin Hotărârea Guvernului nr. 720 / 2008, cu modificările și completările ulterioare, și a metodologiei de transmitere a acestora în platforma informatică din asigurările de sănătate
+... Publicat în
+...
+... MONITORUL OFICIAL nr. 1069 din 18 decembrie 2018
+...
+... -
+... Referatul de aprobare nr. DG 5.229 din 4.12.2018 al directorului general al Casei Naționale de Asigurări de Sănătate;
+...  ...
+... -
+... art. 56 și art. 278 alin. (1) din Legea nr. 95 / 2006 privind reforma în domeniul sănătății, republicată, cu modificările și completările ulterioare;
+...  ...
+... -
+... art. 5 alin. (1) pct. 25-27, art. 8, art. 18 pct. 17 și art. 37 din Statutul Casei Naționale de Asigurări de Sănătate, aprobat prin Hotărârea Guvernului nr. 972 / 2006, cu modificările și completările ulterioare;
+...  ...
+... -
+... Hotărârea Guvernului nr. 720 / 2008 pentru aprobarea Listei cuprinzând denumirile comune internaționale corespunzătoare medicamentelor de care beneficiază asigurații, cu sau fără contribuție personală, pe bază de prescripție medicală, în sistemul de asigurări sociale de sănătate, precum și denumirile comune internaționale corespunzătoare medicamentelor care se acordă în cadrul programelor naționale de sănătate, cu modificările și completările ulterioare;
+...  ...
+... -
+... Ordinul ministrului sănătății publice și al președintelui Casei Naționale de Asigurări de Sănătate nr. 1.301 / 500 / 2008 pentru aprobarea protocoalelor terapeutice privind prescrierea medicamentelor aferente denumirilor comune internaționale prevăzute în Lista cuprinzând denumirile comune internaționale corespunzătoare medicamentelor de care beneficiază asigurații, cu sau fără contribuție personală, pe bază de prescripție medicală, în sistemul de asigurări sociale de sănătate, precum și denumirile comune internaționale corespunzătoare medicamentelor care se acordă în cadrul programelor naționale de sănătate, aprobată prin Hotărârea Guvernului nr. 720 / 2008, cu modificările și completările ulterioare,
+...  ...
+... -
+... art. 291 alin. (2) din Legea nr. 95 / 2006 privind reforma în domeniul sănătății, republicată, cu modificările și completările ulterioare;
+...  ...
+... -
+... art. 17 alin. (5) din Statutul Casei Naționale de Asigurări de Sănătate, aprobat prin Hotărârea Guvernului nr. 972 / 2006, cu modificările și completările ulterioare,
+...  ...
+... președintele Casei Naționale de Asigurări de Sănătate emite următorul ordin:
+... Articolul I
+...
+... În anexa nr. 1 la Ordinul președintelui Casei Naționale de Asigurări de Sănătate nr. 141 / 2017 privind aprobarea formularelor specifice pentru verificarea respectării criteriilor de eligibilitate aferente protocoalelor terapeutice pentru medicamentele notate cu (**)1, (**)1Ω și (**)1β în Lista cuprinzând denumirile comune internaționale corespunzătoare medicamentelor de care beneficiază asigurații, cu sau fără contribuție personală, pe bază de prescripție medicală, în sistemul de asigurări sociale de sănătate, precum și denumirile comune internaționale corespunzătoare medicamentelor care se acordă în cadrul programelor naționale de sănătate, aprobată prin Hotărârea Guvernului nr. 720 / 2008, cu modificările și completările ulterioare, și a metodologiei de transmitere a acestora în platforma informatică din asigurările de sănătate, publicat în Monitorul Oficial al României, Partea I, nr. 151 și 151 bis din 28 februarie 2017, cu modificările și completările ulterioare, formularele specifice corespunzătoare pozițiilor nr. 2, 3, 25, 27,29,33,39,62,77,90 și 106 se modifică și se înlocuiesc cu anexele nr. 1-11 la prezentul ordin.
+... Articolul II
+...
+... Anexele nr. 1-11*) fac parte integrantă din prezentul ordin.*) Anexele nr. 1-11 se publică în Monitorul Oficial al României, Partea I, nr. 1069 bis, care se poate achiziționa de la Centrul pentru relații cu publicul al Regiei Autonome "Monitorul Oficial", București, șos. Panduri nr. 1.
+... Articolul III
+...
+... Prezentul ordin se publică în Monitorul Oficial al României, Partea I, și pe pagina web a Casei Naționale de Asigurări de Sănătate la adresa www.cnas.ro.
+... p. Președintele Casei Naționale de Asigurări de Sănătate,
+... Răzvan Teohari Vulcănescu
+... București, 4 decembrie 2018.
+... Nr. 1.559.
+... ANEXE nr. 1-11
+...
+... MODIFICAREA SI COMPLETAREAanexei nr. 1 la Ordinul președintelui Casei Naționalede Asigurări de Sănătate nr. 141 / 2017
+...  """   ) # input sample text
+>>> for token in doc:
+...    print(token, token.ent_type_)
+...
+
+
+
+ORDIN LAW
+nr. LAW
+1.559 LAW
+din LAW
+4 LAW
+decembrie LAW
+2018 LAW
+
+
+pentru
+modificarea
+anexei
+nr.
+1
+la
+Ordinul LAW
+președintelui LAW
+Casei LAW
+Naționale LAW
+de LAW
+Asigurări LAW
+de LAW
+Sănătate LAW
+nr. LAW
+141 LAW
+/ LAW
+2017 LAW
+privind
+aprobarea
+formularelor
+specifice
+pentru
+verificarea
+respectării
+criteriilor
+de
+eligibilitate
+aferente
+protocoalelor
+terapeutice
+pentru
+medicamentele
+notate
+cu
+(
+*
+*
+)
+1
+,
+(
+*
+*
+)
+1Ω
+și
+(
+*
+*
+)
+1β
+în
+Lista LAW
+cuprinzând LAW
+denumirile LAW
+comune LAW
+internaționale LAW
+corespunzătoare LAW
+medicamentelor LAW
+de LAW
+care LAW
+beneficiază LAW
+asigurații LAW
+, LAW
+cu LAW
+sau LAW
+fără LAW
+contribuție LAW
+personală LAW
+, LAW
+pe LAW
+bază LAW
+de LAW
+prescripție LAW
+medicală LAW
+, LAW
+în LAW
+sistemul LAW
+de LAW
+asigurări LAW
+sociale LAW
+de LAW
+sănătate LAW
+, LAW
+precum LAW
+și LAW
+denumirile LAW
+comune LAW
+internaționale LAW
+corespunzătoare LAW
+medicamentelor LAW
+care LAW
+se LAW
+acordă LAW
+în LAW
+cadrul LAW
+programelor LAW
+naționale LAW
+de LAW
+sănătate LAW
+, LAW
+aprobată LAW
+prin LAW
+Hotărârea LAW
+Guvernului LAW
+nr. LAW
+720 LAW
+/ LAW
+2008 LAW
+,
+cu
+modificările
+și
+completările
+ulterioare
+,
+și
+a
+metodologiei
+de
+transmitere
+a
+acestora
+în
+platforma
+informatică
+din
+asigurările
+de
+sănătate
+
+
+Publicat
+în
+
+
+
+MONITORUL ORG
+OFICIAL ORG
+nr.
+1069
+din
+18 TIME
+decembrie TIME
+2018 TIME
+
+
+
+-
+
+
+Referatul LAW
+de LAW
+aprobare LAW
+nr. LAW
+DG LAW
+5.229 LAW
+din LAW
+4.12.2018 LAW
+al
+directorului
+general
+al
+Casei ORG
+Naționale ORG
+de ORG
+Asigurări ORG
+de ORG
+Sănătate ORG
+;
+
+
+...
+
+
+-
+
+
+art.
+56
+și
+art.
+278
+alin.
+(
+1
+)
+din
+Legea LAW
+nr. LAW
+95 LAW
+/ LAW
+2006 LAW
+privind
+reforma
+în
+domeniul
+sănătății
+,
+republicată
+,
+cu
+modificările
+și
+completările
+ulterioare
+;
+
+
+...
+
+
+-
+
+
+art.
+5
+alin.
+(
+1
+)
+pct.
+25-27
+,
+art.
+8
+,
+art.
+18
+pct.
+17
+și
+art.
+37
+din
+Statutul
+Casei ORG
+Naționale ORG
+de ORG
+Asigurări ORG
+de ORG
+Sănătate ORG
+,
+aprobat
+prin
+Hotărârea LAW
+Guvernului LAW
+nr. LAW
+972 LAW
+/ LAW
+2006 LAW
+,
+cu
+modificările
+și
+completările
+ulterioare
+;
+
+
+...
+
+
+-
+
+
+Hotărârea LAW
+Guvernului LAW
+nr. LAW
+720 LAW
+/ LAW
+2008 LAW
+pentru
+aprobarea
+Listei
+cuprinzând
+denumirile
+comune
+internaționale
+corespunzătoare
+medicamentelor
+de
+care
+beneficiază
+asigurații
+,
+cu
+sau
+fără
+contribuție
+personală
+,
+pe
+bază
+de
+prescripție
+medicală
+,
+în
+sistemul
+de
+asigurări
+sociale
+de
+sănătate
+,
+precum
+și
+denumirile
+comune
+internaționale
+corespunzătoare
+medicamentelor
+care
+se
+acordă
+în
+cadrul
+programelor
+naționale
+de
+sănătate
+,
+cu
+modificările
+și
+completările
+ulterioare
+;
+
+
+...
+
+
+-
+
+
+Ordinul LAW
+ministrului LAW
+sănătății LAW
+publice LAW
+și LAW
+al LAW
+președintelui LAW
+Casei LAW
+Naționale LAW
+de LAW
+Asigurări LAW
+de LAW
+Sănătate LAW
+nr. LAW
+1.301 LAW
+/ LAW
+500 LAW
+/ LAW
+2008 LAW
+pentru
+aprobarea
+protocoalelor
+terapeutice
+privind
+prescrierea
+medicamentelor
+aferente
+denumirilor
+comune
+internaționale
+prevăzute
+în
+Lista
+cuprinzând
+denumirile
+comune
+internaționale
+corespunzătoare
+medicamentelor
+de
+care
+beneficiază
+asigurații
+,
+cu
+sau
+fără
+contribuție
+personală
+,
+pe
+bază
+de
+prescripție
+medicală
+,
+în
+sistemul
+de
+asigurări
+sociale
+de
+sănătate
+,
+precum
+și
+denumirile
+comune
+internaționale
+corespunzătoare
+medicamentelor
+care
+se
+acordă
+în
+cadrul
+programelor
+naționale
+de
+sănătate
+,
+aprobată
+prin
+Hotărârea LAW
+Guvernului LAW
+nr. LAW
+720 LAW
+/ LAW
+2008 LAW
+,
+cu
+modificările
+și
+completările
+ulterioare
+,
+
+
+...
+
+
+-
+
+
+art.
+291
+alin.
+(
+2
+)
+din
+Legea LAW
+nr. LAW
+95 LAW
+/ LAW
+2006 LAW
+privind
+reforma
+în
+domeniul
+sănătății
+,
+republicată
+,
+cu
+modificările
+și
+completările
+ulterioare
+;
+
+
+...
+
+
+-
+
+
+art.
+17
+alin.
+(
+5
+)
+din
+Statutul
+Casei
+Naționale
+de
+Asigurări
+de
+Sănătate
+,
+aprobat
+prin
+Hotărârea LAW
+Guvernului LAW
+nr. LAW
+972 LAW
+/ LAW
+2006 LAW
+,
+cu
+modificările
+și
+completările
+ulterioare
+,
+
+
+...
+
+
+președintele
+Casei
+Naționale
+de
+Asigurări
+de
+Sănătate
+emite
+următorul
+ordin
+:
+
+
+Articolul
+I
+
+
+
+În
+anexa
+nr.
+1
+la
+Ordinul LAW
+președintelui LAW
+Casei LAW
+Naționale LAW
+de LAW
+Asigurări LAW
+de LAW
+Sănătate LAW
+nr. LAW
+141 LAW
+/ LAW
+2017 LAW
+privind
+aprobarea
+formularelor
+specifice
+pentru
+verificarea
+respectării
+criteriilor
+de
+eligibilitate
+aferente
+protocoalelor
+terapeutice
+pentru
+medicamentele
+notate
+cu
+(
+*
+*
+)
+1
+,
+(
+*
+*
+)
+1Ω
+și
+(
+*
+*
+)
+1β
+în
+Lista LAW
+cuprinzând LAW
+denumirile LAW
+comune LAW
+internaționale LAW
+corespunzătoare LAW
+medicamentelor LAW
+de LAW
+care LAW
+beneficiază LAW
+asigurații LAW
+, LAW
+cu LAW
+sau LAW
+fără LAW
+contribuție LAW
+personală LAW
+, LAW
+pe LAW
+bază LAW
+de LAW
+prescripție LAW
+medicală LAW
+, LAW
+în LAW
+sistemul LAW
+de LAW
+asigurări LAW
+sociale LAW
+de LAW
+sănătate LAW
+, LAW
+precum LAW
+și LAW
+denumirile LAW
+comune LAW
+internaționale LAW
+corespunzătoare LAW
+medicamentelor LAW
+care LAW
+se LAW
+acordă LAW
+în LAW
+cadrul LAW
+programelor LAW
+naționale LAW
+de LAW
+sănătate LAW
+, LAW
+aprobată LAW
+prin LAW
+Hotărârea LAW
+Guvernului LAW
+nr. LAW
+720 LAW
+/ LAW
+2008 LAW
+,
+cu
+modificările
+și
+completările
+ulterioare
+,
+și
+a
+metodologiei
+de
+transmitere
+a
+acestora
+în
+platforma
+informatică
+din
+asigurările
+de
+sănătate
+,
+publicat
+în
+Monitorul ORG
+Oficial ORG
+al
+României LOC
+,
+Partea
+I
+,
+nr.
+151
+și
+151
+bis
+din
+28 TIME
+februarie TIME
+2017 TIME
+,
+cu
+modificările
+și
+completările
+ulterioare
+,
+formularele
+specifice
+corespunzătoare
+pozițiilor
+nr.
+2
+,
+3
+,
+25
+,
+27,29,33,39,62,77,90
+și
+106
+se
+modifică
+și
+se
+înlocuiesc
+cu
+anexele
+nr.
+1-11
+la
+prezentul
+ordin
+.
+
+
+Articolul
+II
+
+
+
+Anexele
+nr.
+1-11
+*
+)
+fac
+parte
+integrantă
+din
+prezentul
+ordin
+.
+*
+)
+Anexele
+nr.
+1-11
+se
+publică
+în
+Monitorul ORG
+Oficial ORG
+al
+României LOC
+,
+Partea
+I
+,
+nr.
+1069
+bis
+,
+care
+se
+poate
+achiziționa
+de
+la
+Centrul LOC
+pentru
+relații
+cu
+publicul
+al
+Regiei ORG
+Autonome ORG
+" ORG
+Monitorul ORG
+Oficial ORG
+"
+,
+București
+,
+șos
+.
+Panduri
+nr.
+1
+.
+
+
+Articolul
+III
+
+
+
+Prezentul
+ordin
+se
+publică
+în
+Monitorul ORG
+Oficial ORG
+al
+României LOC
+,
+Partea
+I
+,
+și
+pe
+pagina
+web
+a
+Casei
+Naționale
+de
+Asigurări
+de
+Sănătate
+la
+adresa
+www.cnas.ro
+.
+
+
+p.
+Președintele
+Casei ORG
+Naționale ORG
+de ORG
+Asigurări ORG
+de ORG
+Sănătate ORG
+,
+
+
+Răzvan LOC
+Teohari LOC
+Vulcănescu LOC
+
+
+București LOC
+,
+4 TIME
+decembrie TIME
+2018 TIME
+.
+
+
+Nr.
+1.559
+.
+
+
+ANEXE
+nr.
+1-11
+
+
+
+MODIFICAREA
+SI
+COMPLETAREAanexei
+nr.
+1
+la
+Ordinul LAW
+președintelui LAW
+Casei LAW
+Naționalede LAW
+Asigurări LAW
+de LAW
+Sănătate LAW
+nr. LAW
+141 LAW
+/ LAW
+2017 LAW
+
+
+>>>
