@@ -26,7 +26,7 @@
 
 ## News
 * Stage 1 is finished and it can be found in the directory with the same name.
-* Stage 2 is planned to be uploaded before 05/12/2021.
+* Stage 2 is planned to be uploaded before 12/05/2021.
 * The usage of the "ro_core_news_lg" will be postponed until the final model in order to have prf-values representative for this project's gold data set.
 * The main focus of Stage 2 will be to include the word embeddings offered by CoRoLa.
 
@@ -132,7 +132,7 @@ The only problem with that is that it returns the score for all the tags togethe
 * There is also a problem related to multi-word entities.
 
 ## Stage 2
-* Will be posted before 05/12/2021.
+* Will be posted before 12/05/2021.
 
 ## Behind The Model
 ### Introduction
