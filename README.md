@@ -15,6 +15,11 @@
   * [Remarks](#remarks)
   * [Problems](#problems)
 * [Stage 2](#stage-2)
+  * [Updates](#updates)
+  * [How to use it](#how-to-use-it)
+  * [Desired modifications](#future-modifications)
+  * [Decision regarding future stages](decision-regarding-future-stages)
+* [Stage 3](#stage-3)
 * [Behind The Model](#behind-the-model) 
   * [Introduction](#introduction)
   * [Language processing pipelines](#language-processing-pipelines)
@@ -132,7 +137,92 @@ The only problem with that is that it returns the score for all the tags togethe
 * There is also a problem related to multi-word entities.
 
 ## Stage 2
-* Will be posted before 12/05/2021.
+Stage 2 is out and clarifies different aspects.
+### Updates
+* The transition to spaCy v3 was successful.
+* The model can be used from the command line.
+### How to use it
+The following file can be found at Stage 2/Stage 2 - v3/example.txt and ilustrates the commands necessary for accessing the model:
+```python
+Microsoft Windows [Version 10.0.19042.928]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Carol Luca\Desktop\Code\RACAI\Stage 2 - v3>python
+Python 3.9.2 (tags/v3.9.2:1a79785, Feb 19 2021, 13:44:55) [MSC v.1928 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import spacy
+>>> nlp1 = spacy.load("./output/model-best") #load the best model
+>>> doc = nlp1("""
+...
+... ORDIN nr. 1.559 din 4 decembrie 2018
+... pentru modificarea anexei nr. 1 la Ordinul președintelui Casei Naționale de Asigurări de Sănătate nr. 141 / 2017 privind aprobarea formularelor specifice pentru verificarea respectării criteriilor de eligibilitate aferente protocoalelor terapeutice pentru medicamentele notate cu (**)1, (**)1Ω și (**)1β în Lista cuprinzând denumirile comune internaționale corespunzătoare medicamentelor de care beneficiază asigurații, cu sau fără contribuție personală, pe bază de prescripție medicală, în sistemul de asigurări sociale de sănătate, precum și denumirile comune internaționale corespunzătoare medicamentelor care se acordă în cadrul programelor naționale de sănătate, aprobată prin Hotărârea Guvernului nr. 720 / 2008, cu modificările și completările ulterioare, și a metodologiei de transmitere a acestora în platforma informatică din asigurările de sănătate
+... [...]
+... Prezentul ordin se publică în Monitorul Oficial al României, Partea I, și pe pagina web a Casei Naționale de Asigurări de Sănătate la adresa www.cnas.ro.
+... p. Președintele Casei Naționale de Asigurări de Sănătate,
+... Răzvan Teohari Vulcănescu
+... București, 4 decembrie 2018.
+... Nr. 1.559.
+... ANEXE nr. 1-11
+...
+... MODIFICAREA SI COMPLETAREAanexei nr. 1 la Ordinul președintelui Casei Naționalede Asigurări de Sănătate nr. 141 / 2017
+...  """   ) # input sample text
+>>> for token in doc:
+...    print(token, token.ent_type_)
+...
+
+
+
+ORDIN LAW
+nr. LAW
+1.559 LAW
+din LAW
+4 LAW
+decembrie LAW
+2018 LAW
+
+
+pentru
+modificarea
+anexei
+nr.
+1
+la
+Ordinul LAW
+președintelui LAW
+Casei LAW
+Naționale LAW
+de LAW
+Asigurări LAW
+de LAW
+Sănătate LAW
+nr. LAW
+141 LAW
+/ LAW
+2017 LAW
+[...]
+MODIFICAREA
+SI
+COMPLETAREAanexei
+nr.
+1
+la
+Ordinul LAW
+președintelui LAW
+Casei LAW
+Naționalede LAW
+Asigurări LAW
+de LAW
+Sănătate LAW
+nr. LAW
+141 LAW
+/ LAW
+2017 LAW
+
+
+>>>
+```
+I used "[...]" to mark the intentional removal of some rows.
+### Desired modifications
 
 ## Behind The Model
 ### Introduction
