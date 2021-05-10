@@ -16,6 +16,7 @@
   * [Problems](#problems)
 * [Stage 2](#stage-2)
   * [Updates](#updates)
+  * [Training](#training)
   * [How to use it](#how-to-use-it)
   * [Desired modifications](#future-modifications)
   * [Decision regarding future stages](decision-regarding-future-stages)
@@ -141,8 +142,96 @@ Stage 2 is out and clarifies different aspects.
 ### Updates
 * The transition to spaCy v3 was successful.
 * The model can be used from the command line.
+### Training
+Let's see how can we build a custom NER model in Spacy v3.0, using Spacy’s recommended Command Line Interface (CLI) method instead of the custom training loops that were typical in Spacy v2.
+#### Overview
+Essentially, in Spacy v3, there has been a shift toward training your model pipelines using the spacy train command on the command line instead of making your own training loop in Python. As a result of this, the old data formats (json etc.) that were used in Spacy v2 are no longer accepted and you have to convert your data into a new .spacy format. There are hence two main things that we will explore:
+* Updating your data from the old NER format to the new .spacy format
+* Using the CLI to train your data and configuring the training
+* Loading the model and predicting
+##### The new .spacy format
+In version 2, the format for NER was as follows:
+
+```python
+[('The F15 aircraft uses a lot of fuel', {'entities': [(4, 7, 'aircraft')]}),
+ ('did you see the F16 landing?', {'entities': [(16, 19, 'aircraft')]}),
+ ('how many missiles can a F35 carry', {'entities': [(24, 27, 'aircraft')]}),
+ ('is the F15 outdated', {'entities': [(7, 10, 'aircraft')]}),
+ ('does the US still train pilots to dog fight?',
+  {'entities': [(0, 0, 'aircraft')]}),
+ ('how long does it take to train a F16 pilot',
+  {'entities': [(33, 36, 'aircraft')]}),
+ ('how much does a F35 cost', {'entities': [(16, 19, 'aircraft')]}),
+ ('would it be possible to steal a F15', {'entities': [(32, 35, 'aircraft')]}),
+ ('who manufactures the F16', {'entities': [(21, 24, 'aircraft')]}),
+ ('how many countries have bought the F35',
+  {'entities': [(35, 38, 'aircraft')]}),
+ ('is the F35 a waste of money', {'entities': [(7, 10, 'aircraft')]})]
+```
+Spacy v3.0, however, no longer takes this format and this has to be converted to their .spacy format by converting these first in doc and then a docbin. This is done using the following code, adapted from their sample project:
+
+```python
+mport pandas as pd
+from tqdm import tqdm
+import spacy
+from spacy.tokens import DocBin
+
+nlp = spacy.blank("en") # load a new spacy model
+db = DocBin() # create a DocBin object
+
+for text, annot in tqdm(TRAIN_DATA): # data in previous format
+    doc = nlp.make_doc(text) # create doc object from text
+    ents = []
+    for start, end, label in annot["entities"]: # add character indexes
+        span = doc.char_span(start, end, label=label, alignment_mode="contract")
+        if span is None:
+            print("Skipping entity")
+        else:
+            ents.append(span)
+    doc.ents = ents # label the text with the ents
+    db.add(doc)
+
+db.to_disk("./train.spacy") # save the docbin object
+```
+This helps to convert the file from your old Spacy v2 formats to the brand new Spacy v3 format.
+##### Using the CLI to train your model
+In version 2, training of the model would be done internally within Python. However, Spacy has now released a spacy train command to be used with the CLI. They recommend that this be done because it is supposedly faster and helps with the evaluation/validation process. Furthermore, it comes with early stopping logic built in (whereas in Spacy v2, one would have to write a wrapper code to have early stopping).
+
+The only issue with using this new command is that the documentation for it is honestly not 100% there yet. The issue with not having documentation however, is that I sometimes struggled with knowing what exactly the outputs on the command line meant. However, they are extremely helpful on their Github discussion forum and I’ve always had good help there.
+
+The first step to using the CLI is getting a config file.
+
+![image](https://user-images.githubusercontent.com/44003293/117616458-d4887480-b173-11eb-966c-74a83fc37095.png)
+
+* Filling in your config file
+The config file doesn’t come fully filled. Hence, the first command it should be run is:
+
+```CLI
+python -m spacy init fill-config base_config.cfg config.cfg
+```
+This will fill up the base_config file downloaded from Spacy’s widget with the defaults.
+##### Training the model
+At this point, there should be three files on hand: (1) the config.cfg file, (2) your training data in the .spacy format and (3) an evaluation dataset. 
+In this case, I didn't create another evaluation dataset and simply used my training data as the evaluation dataset (just for the README.md file!)
+Make sure all three files are in the folder that you're running the CLI in.
+
+```CLI
+python -m spacy train config.cfg --output ./output --paths.train ./train.spacy --paths.dev ./train.spacy
+```
+This is the output that it should be roughly seen (it will change depending on your settings):
+
+![image](https://user-images.githubusercontent.com/44003293/117616942-82941e80-b174-11eb-8830-1e290eff8964.png)
+
+Although there is no official documentation:
+* E is the number of Epochs
+* # is the number of optimization steps (= batches processed)
+* LOSS NER is the model loss
+* ENTS_F, ENTS_P, and ENTS_R are the precision, recall and fscore for the NER task
+
+The LOSS NER is calculated based on the test set while the ENTS_F etc. are calculated based on the evaluation dataset. Once the training is completed, Spacy will save the best model based on how you setup the config file (i.e. the section within the config file on scoring weights) and also the last model that was trained.
 ### How to use it
-The following file can be found at Stage 2/Stage 2 - v3/example.txt and ilustrates the commands necessary for accessing the model:
+The following file can be found at Stage 2/Stage 2 - v3/example.txt and ilustrates the commands necessary for accessing the Stage 2 model:
+
 ```python
 Microsoft Windows [Version 10.0.19042.928]
 (c) Microsoft Corporation. All rights reserved.
