@@ -31,10 +31,9 @@
   * [Training the named entity recognizer](#training-the-named-entity-recognizer)
 
 ## News
-* Stage 1 is finished and it can be found in the directory with the same name.
-* Stage 2 is planned to be uploaded before 12/05/2021.
-* The usage of the "ro_core_news_lg" will be postponed until the final model in order to have prf-values representative for this project's gold data set.
-* The main focus of Stage 2 will be to include the word embeddings offered by CoRoLa.
+* Stage 2 is finished and it can be found in the directory with the same name.
+* Stage 3 is planned to be uploaded before 12/05/2021.
+* The main focus of Stage 3 will be to include the word embeddings offered by CoRoLa.
 
 ## Preview
 In this project is developed a named entity recognition model for legal documents in romanian using SpaCy library.
@@ -224,7 +223,7 @@ This is the output that it should be roughly seen (it will change depending on y
 
 Although there is no official documentation:
 * E is the number of Epochs
-* # is the number of optimization steps (= batches processed)
+* 2nd column shows the number of optimization steps (= batches processed)
 * LOSS NER is the model loss
 * ENTS_F, ENTS_P, and ENTS_R are the precision, recall and fscore for the NER task
 
@@ -319,6 +318,9 @@ Note: I used "[...]" to mark the intentional removal of some rows.
 ### Decision regarding future stages
 * As mentioned before, it will not be used the model ro_core_news_lg
 * There will be no prf-values for Stage 2, as it is an intermediate state between Stages 1 and 3.
+
+## Stage 3
+* It should be published until 12/05/2021.
 
 ## Behind The Model
 ### Introduction
