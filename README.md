@@ -3,6 +3,7 @@
 * [News](#news)
 * [Preview](#preview)
 * [Accommodation](#accommodation)
+* [Additional](#additional)
 * [Data Sets](#data-sets)
 * [Stage 0](#stage-0)
   * [Load the model, or create an empty model](#load-the-model,-or-create-an-empty-model)
@@ -39,16 +40,21 @@
 In this project is developed a named entity recognition model for legal documents in romanian using SpaCy library.
 This repository is divided as follows:
 * Accommodation - tries before the actual model
+* Additional - additional code used for better understanding of advanced Stages
 * Data Sets - all the data used for the project, including parsing programs
 * Stage 0 - functional model with no special training techniques - best for single entity recognition
 * Stage 1 - model supposed to have the ability of running on longer texts
-* Stage 2 - under development, it will be posted until 04/28/2021.
+* Stage 2 - intermediate model using v3 spaCy
+* Stage 3 - it will be posted until 12/05/2021
 * Behind The Model - detailed explanations regarding the model functionality
 
 Each folder contains its own Description.md file in which the content is resumed.
 
 ## Accommodation
 This part of the project has its own directory in which are presented codes that were used in understanding spaCy usage.
+
+## Additional
+This directory contains additional code used for better understanding of advanced Stages.
 
 ## Data Sets
 This folder contains all the data sets used for this project, including two programs for parsing the raw gold data sets.
