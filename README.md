@@ -221,8 +221,15 @@ nr. LAW
 
 >>>
 ```
-I used "[...]" to mark the intentional removal of some rows.
+Note: I used "[...]" to mark the intentional removal of some rows.
 ### Desired modifications
+* Implementation of multi-word entities - for output
+* Using pretrained word embeddings - from Stage 3
+* Modyfing other elements from configuration file
+* Working on the TRAIN_DATA and TEST_DATA arrays
+### Decision regarding future stages
+* As mentioned before, it will not be used the model ro_core_news_lg
+* There will be no prf-values for Stage 2, as it is an intermediate state between Stages 1 and 3.
 
 ## Behind The Model
 ### Introduction
