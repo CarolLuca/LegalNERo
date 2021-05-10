@@ -144,7 +144,7 @@ Stage 2 is out and clarifies different aspects.
 ### Training
 Let's see how can we build a custom NER model in Spacy v3.0, using Spacy’s recommended Command Line Interface (CLI) method instead of the custom training loops that were typical in Spacy v2.
 #### Overview
-Essentially, in Spacy v3, there has been a shift toward training your model pipelines using the spacy train command on the command line instead of making your own training loop in Python. As a result of this, the old data formats (json etc.) that were used in Spacy v2 are no longer accepted and you have to convert your data into a new .spacy format. There are hence two main things that we will explore:
+Essentially, in Spacy v3, there has been a shift toward training your model pipelines using the spacy train command on the command line instead of making your own training loop in Python. As a result of this, the old data formats (json etc.) that were used in Spacy v2 are no longer accepted and you have to convert your data into a new .spacy format. There are hence three main things that we will explore:
 * Updating your data from the old NER format to the new .spacy format
 * Using the CLI to train your data and configuring the training
 * Loading the model and predicting
@@ -170,7 +170,7 @@ In version 2, the format for NER was as follows:
 Spacy v3.0, however, no longer takes this format and this has to be converted to their .spacy format by converting these first in doc and then a docbin. This is done using the following code, adapted from their sample project:
 
 ```python
-mport pandas as pd
+import pandas as pd
 from tqdm import tqdm
 import spacy
 from spacy.tokens import DocBin
