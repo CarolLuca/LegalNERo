@@ -33,7 +33,7 @@
 
 ## News
 * Stage 2 is finished and it can be found in the directory with the same name.
-* Stage 3 is planned to be uploaded before 12/05/2021.
+* Stage 3 is planned to be uploaded before 19/05/2021.
 * The main focus of Stage 3 will be to include the word embeddings offered by CoRoLa.
 
 ## Preview
@@ -326,7 +326,7 @@ Note: I used "[...]" to mark the intentional removal of some rows.
 * There will be no prf-values for Stage 2, as it is an intermediate state between Stages 1 and 3.
 
 ## Stage 3
-* It should be published until 12/05/2021.
+* It should be published until 19/05/2021.
 
 ## Behind The Model
 ### Introduction
