@@ -42,6 +42,7 @@ In this project is developed a named entity recognition model for legal document
 This repository is divided as follows:
 * Accommodation - tries before the actual model
 * Additional - additional code used for better understanding of advanced Stages
+* Resources - list of useful links and references
 * Data Sets - all the data used for the project, including parsing programs
 * Stage 0 - functional model with no special training techniques - best for single entity recognition
 * Stage 1 - model supposed to have the ability of running on longer texts
@@ -56,6 +57,9 @@ This part of the project has its own directory in which are presented codes that
 
 ## Additional
 This directory contains additional code used for better understanding of advanced Stages.
+
+## Resources
+This directory contains only the Description.md file with useful links.
 
 ## Data Sets
 This folder contains all the data sets used for this project, including two programs for parsing the raw gold data sets.
