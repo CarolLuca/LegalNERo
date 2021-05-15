@@ -4,6 +4,7 @@
 * [Preview](#preview)
 * [Accommodation](#accommodation)
 * [Additional](#additional)
+* [Resources](#resources)
 * [Data Sets](#data-sets)
 * [Stage 0](#stage-0)
   * [Load the model, or create an empty model](#load-the-model,-or-create-an-empty-model)
