@@ -20,7 +20,7 @@
   * [Updates](#updates)
   * [Training](#training)
   * [How to use it](#how-to-use-it)
-  * [Desired modifications](#future-modifications)
+  * [Desired modifications](#desired-modifications)
   * [Decision regarding future stages](decision-regarding-future-stages)
 * [Stage 3](#stage-3)
 * [Behind The Model](#behind-the-model) 
