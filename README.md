@@ -67,6 +67,9 @@ This directory contains additional code used for better understanding of advance
 ## Resources
 This directory contains only the Description.md file with useful links.
 
+![image](https://user-images.githubusercontent.com/44003293/118375838-03b44100-b5cd-11eb-938a-f8e186f706cc.png)
+
+
 ## Data Sets
 This folder contains all the data sets used for this project, including two programs for parsing the raw gold data sets.
 
