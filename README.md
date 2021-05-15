@@ -55,6 +55,9 @@ Each folder contains its own Description.md file in which the content is resumed
 ## Accommodation
 This part of the project has its own directory in which are presented codes that were used in understanding spaCy usage.
 
+![image](https://user-images.githubusercontent.com/44003293/118375675-e2068a00-b5cb-11eb-8d59-70760910aaa6.png)
+
+
 ## Additional
 This directory contains additional code used for better understanding of advanced Stages.
 
