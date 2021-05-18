@@ -7,7 +7,7 @@
 * [Resources](#resources)
 * [Data Sets](#data-sets)
 * [Stage 0](#stage-0)
-  * [Load the model, or create an empty model](#load-the-model,-or-create-an-empty-model)
+  * [Load the model or create an empty model](#load-the-model-or-create-an-empty-model)
   * [Adding Labels or entities](#adding-labels-or-entities)
   * [Training and updating the model](#training-and-updating-the-model)
   * [Calculating prf-values](#calculating-prf-values)
@@ -23,6 +23,9 @@
   * [Desired modifications](#desired-modifications)
   * [Decision regarding future stages](decision-regarding-future-stages)
 * [Stage 3](#stage-3)
+  * [Differences from Stage 2](#differences-from-stage-2)
+  * [Performance](#performance)
+  * [Next steps](#next-steps)
 * [Stage 4](#stage-4)
 * [Behind The Model](#behind-the-model) 
   * [Introduction](#introduction)
@@ -81,7 +84,7 @@ This folder contains all the data sets used for this project, including two prog
 
 ## Stage 0
 This is a brief description of the stage 0 model:
-### Load the model, or create an empty model
+### Load the model or create an empty model
 We can create an empty model and train it with our annotated dataset or we can use existing spacy model and re-train with our annotated data.
 
 ```python
