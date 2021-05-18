@@ -360,7 +360,7 @@ This stage successfully integrates word embeddings. Let's clarify some aspects a
 * This did not require work on the word embeddings and format of the file, the purpose being to see how the model reaction to the introduction of pretrained variables.
 * The model is used in the same way as the one from Stage 2.
 ### Performance
-* It will come within a day or two.
+* ORG: 
 ### Next steps
 * In stage 4, the word embeddings from CoRoLa will be used.
 * There will also be different verifications on how correct were the TRAIN_DATA and TEST_DATA constructed.
