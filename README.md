@@ -23,6 +23,7 @@
   * [Desired modifications](#desired-modifications)
   * [Decision regarding future stages](decision-regarding-future-stages)
 * [Stage 3](#stage-3)
+* [Stage 4](#stage-4)
 * [Behind The Model](#behind-the-model) 
   * [Introduction](#introduction)
   * [Language processing pipelines](#language-processing-pipelines)
@@ -33,9 +34,10 @@
   * [Training the named entity recognizer](#training-the-named-entity-recognizer)
 
 ## News
-* Stage 2 is finished and it can be found in the directory with the same name.
-* Stage 3 is planned to be uploaded before 19/05/2021.
-* The main focus of Stage 3 will be to include the word embeddings offered by CoRoLa.
+* Stage 3 is finished and it can be found in the directory with the same name.
+* Stage 3 uses the word embeddings pretrained for ro_core_news_lg (not the model)
+* Stage 4 is coming soon.
+* The main focus of Stage 4 will be to include the word embeddings offered by CoRoLa.
 
 ## Preview
 In this project is developed a named entity recognition model for legal documents in romanian using SpaCy library.
@@ -47,7 +49,8 @@ This repository is divided as follows:
 * Stage 0 - functional model with no special training techniques - best for single entity recognition
 * Stage 1 - model supposed to have the ability of running on longer texts
 * Stage 2 - intermediate model using v3 spaCy
-* Stage 3 - it will be posted until 12/05/2021
+* Stage 3 - successfully integrated word embeddings
+* Stage 4 - coming soon
 * Behind The Model - detailed explanations regarding the model functionality
 
 Each folder contains its own Description.md file in which the content is resumed.
@@ -343,7 +346,10 @@ Note: I used "[...]" to mark the intentional removal of some rows.
 * There will be no prf-values for Stage 2, as it is an intermediate state between Stages 1 and 3.
 
 ## Stage 3
-* It should be published until 19/05/2021.
+This stage successfully integrates word embeddings.
+
+## Stage 4
+* Coming soon.
 
 ## Behind The Model
 ### Introduction
