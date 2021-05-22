@@ -1,4 +1,4 @@
-# Named Entity Recognition in Romanian Legal Domain
+# Named Entity Recognition For The Romanian Legal Domain
 ## Table of contents
 * [News](#news)
 * [Preview](#preview)
