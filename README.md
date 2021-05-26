@@ -365,6 +365,11 @@ Example set of measurements on a short amount of data:
 
 Set of measurements on all the gold data available that is not rendundant:
 * {'token_acc': 1.0, 'token_p': 1.0, 'token_r': 1.0, 'token_f': 1.0, 'sents_p': 1.0, 'sents_r': 1.0, 'sents_f': 1.0, 'tag_acc': None, 'pos_acc': None, 'morph_acc': None, 'morph_per_feat': None, 'dep_uas': None, 'dep_las': None, 'dep_las_per_type': None, 'ents_p': 0.9159751037344398, 'ents_r': 0.8547918683446273, 'ents_f': 0.8843264897346019, 'ents_per_type': {'LAW': {'p': 0.9313725490196079, 'r': 0.9344262295081968, 'f': 0.9328968903436988}, 'LOC': {'p': 0.9402985074626866, 'r': 0.7241379310344828, 'f': 0.8181818181818181}, 'ORG': {'p': 0.89419795221843, 'r': 0.8478964401294499, 'f': 0.8704318936877078}, 'TIME': {'p': 0.9277777777777778, 'r': 0.8434343434343434, 'f': 0.8835978835978836}, 'PER': {'p': 0.8431372549019608, 'r': 0.9148936170212766, 'f': 0.8775510204081632}}, 'cats_score': 0.0, 'cats_score_desc': 'macro F', 'cats_micro_p': 0.0, 'cats_micro_r': 0.0, 'cats_micro_f': 0.0, 'cats_macro_p': 0.0, 'cats_macro_r': 0.0, 'cats_macro_f': 0.0, 'cats_macro_auc': 0.0, 'cats_f_per_type': {}, 'cats_auc_per_type': {}}
+
+Evolution:
+
+![image](https://user-images.githubusercontent.com/44003293/119690846-b64c9500-be52-11eb-828d-c26350afae67.png)
+
 ### Next steps
 * In stage 4, the word embeddings from CoRoLa will be used.
 * There will also be different verifications on how correct were the TRAIN_DATA and TEST_DATA constructed.
