@@ -360,8 +360,11 @@ This stage successfully integrates word embeddings. Let's clarify some aspects a
 * This did not require work on the word embeddings and format of the file, the purpose being to see how the model reaction to the introduction of pretrained variables.
 * The model is used in the same way as the one from Stage 2.
 ### Performance
-First set of measurements:
+Example set of measurements on a short amount of data:
 * {'token_acc': 1.0, 'token_p': 1.0, 'token_r': 1.0, 'token_f': 1.0, 'sents_p': 1.0, 'sents_r': 1.0, 'sents_f': 1.0, 'tag_acc': None, 'pos_acc': None, 'morph_acc': None, 'morph_per_feat': None, 'dep_uas': None, 'dep_las': None, 'dep_las_per_type': None, 'ents_p': 0.9833333333333333, 'ents_r': 0.9365079365079365, 'ents_f': 0.9593495934959351, 'ents_per_type': {'LAW': {'p': 1.0, 'r': 1.0, 'f': 1.0}, 'LOC': {'p': 1.0, 'r': 0.6666666666666666, 'f': 0.8}, 'ORG': {'p': 0.9565217391304348, 'r': 0.9565217391304348, 'f': 0.9565217391304348}, 'TIME': {'p': 1.0, 'r': 1.0, 'f': 1.0}, 'PER': {'p': 1.0, 'r': 1.0, 'f': 1.0}}, 'cats_score': 0.0, 'cats_score_desc': 'macro F', 'cats_micro_p': 0.0, 'cats_micro_r': 0.0, 'cats_micro_f': 0.0, 'cats_macro_p': 0.0, 'cats_macro_r': 0.0, 'cats_macro_f': 0.0, 'cats_macro_auc': 0.0, 'cats_f_per_type': {}, 'cats_auc_per_type': {}}
+
+Set of measurements on all the gold data available that is not rendundant:
+* {'token_acc': 1.0, 'token_p': 1.0, 'token_r': 1.0, 'token_f': 1.0, 'sents_p': 1.0, 'sents_r': 1.0, 'sents_f': 1.0, 'tag_acc': None, 'pos_acc': None, 'morph_acc': None, 'morph_per_feat': None, 'dep_uas': None, 'dep_las': None, 'dep_las_per_type': None, 'ents_p': 0.9159751037344398, 'ents_r': 0.8547918683446273, 'ents_f': 0.8843264897346019, 'ents_per_type': {'LAW': {'p': 0.9313725490196079, 'r': 0.9344262295081968, 'f': 0.9328968903436988}, 'LOC': {'p': 0.9402985074626866, 'r': 0.7241379310344828, 'f': 0.8181818181818181}, 'ORG': {'p': 0.89419795221843, 'r': 0.8478964401294499, 'f': 0.8704318936877078}, 'TIME': {'p': 0.9277777777777778, 'r': 0.8434343434343434, 'f': 0.8835978835978836}, 'PER': {'p': 0.8431372549019608, 'r': 0.9148936170212766, 'f': 0.8775510204081632}}, 'cats_score': 0.0, 'cats_score_desc': 'macro F', 'cats_micro_p': 0.0, 'cats_micro_r': 0.0, 'cats_micro_f': 0.0, 'cats_macro_p': 0.0, 'cats_macro_r': 0.0, 'cats_macro_f': 0.0, 'cats_macro_auc': 0.0, 'cats_f_per_type': {}, 'cats_auc_per_type': {}}
 ### Next steps
 * In stage 4, the word embeddings from CoRoLa will be used.
 * There will also be different verifications on how correct were the TRAIN_DATA and TEST_DATA constructed.
