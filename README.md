@@ -38,34 +38,34 @@
 
 ## News
 * Stage 3 is finished and it can be found in the directory with the same name.
-* Stage 3 uses the word embeddings pretrained for ro_core_news_lg (not the model)
+* Stage 3 uses the word embeddings pre-trained for ro_core_news_lg (not the model)
 * Stage 4 is coming soon.
 * The main focus of Stage 4 will be to include the word embeddings offered by CoRoLa.
 
 ## Preview
-In this project is developed a named entity recognition model for legal documents in romanian using SpaCy library.
+In this project is developed a named entity recognition model for legal documents in Romanian using the SpaCy library.
 This repository is divided as follows:
 * Accommodation - tries before the actual model
 * Additional - additional code used for better understanding of advanced Stages
 * Resources - list of useful links and references
 * Data Sets - all the data used for the project, including parsing programs
 * Stage 0 - functional model with no special training techniques - best for single entity recognition
-* Stage 1 - model supposed to have the ability of running on longer texts
+* Stage 1 - model supposed to have the ability to run on longer texts
 * Stage 2 - intermediate model using v3 spaCy
 * Stage 3 - successfully integrated word embeddings
 * Stage 4 - coming soon
 * Behind The Model - detailed explanations regarding the model functionality
 
-Each folder contains its own Description.md file in which the content is resumed.
+Each folder contains its Description.md file in which the content is resumed.
 
 ## Accommodation
-This part of the project has its own directory in which are presented codes that were used in understanding spaCy usage.
+This part of the project has its directory in which are presented codes that were used in understanding spaCy usage.
 
 ![image](https://user-images.githubusercontent.com/44003293/118375696-05c9d000-b5cc-11eb-80cf-2b3791c58f0c.png)
 
 
 ## Additional
-This directory contains additional code used for better understanding of advanced Stages.
+This directory contains additional code used for a better understanding of advanced Stages.
 
 ![image](https://user-images.githubusercontent.com/44003293/118375711-1c702700-b5cc-11eb-9469-2d22b49ab932.png)
 
@@ -85,7 +85,7 @@ This folder contains all the data sets used for this project, including two prog
 ## Stage 0
 This is a brief description of the stage 0 model:
 ### Load the model or create an empty model
-We can create an empty model and train it with our annotated dataset or we can use existing spacy model and re-train with our annotated data.
+We can create an empty model and train it with our annotated dataset or we can use the existing spacy model and re-train with our annotated data.
 
 ```python
 if model is not None:
@@ -102,8 +102,8 @@ else :
     ner = nlp.get_pipe("ner")
 ```
 * We can create an empty model using spacy.black(“en”) or we can load the existing spacy model using spacy.load(“model_name”)
-* We can check the list of pipeline component names by using nlp.pipe_names() .
-* If  we don’t have the entity recogniser in  the pipeline, we will need to create the ner pipeline component using nlp.create_pipe(“ner”) and add that in our model pipeline by using nlp.add_pipe method.
+* We can check the list of pipeline component names by using nlp.pipe_names().
+* If we don’t have the entity recogniser in the pipeline, we will need to create the ner pipeline component using nlp.create_pipe(“ner”) and add that in our model pipeline by using the nlp.add_pipe method.
 ### Adding Labels or entities
 ```python
 # add labels
@@ -120,7 +120,7 @@ with nlp.disable_pipes(*other_pipe) :
     else:
         optimizer = nlp.resume_training()
 ```
-In order to train the model with our annotated data, we need to add the labels (entities) we want to extract from our text.
+To train the model with our annotated data, we need to add the labels (entities) we want to extract from our text.
 
 * We can add the new entity from our annotated data to the entity recogniser using ner.add_label().
 * As we are only focusing on entity extraction, we will disable all other pipeline components to train our model for ner only using nlp.disable_pipes().
@@ -142,7 +142,7 @@ for int in range(iteration) :
   #print(losses)
 new_model = nlp
 ```
-* We will train our model for a number of iterations so that the model can learn from it effectively.
+* We will train our model for several iterations so that the model can learn from it effectively.
 * At each iteration, the training data is shuffled to ensure the model doesn’t make any generalisations based on the order of examples.
 * We will update the model for each iteration using  nlp.update(). 
 ### Calculating prf-values
@@ -150,7 +150,7 @@ Spacy has a built-in class to evaluate NER. It's called scorer. Scorer uses exac
 
 The only problem with that is that it returns the score for all the tags together in the document. However, we can call the function only with the TAG we want and get the desired result.
 ### Problems
-* The romanian model "ro_model_news_lg" was not used because of the differences between spaCy v2.2.4. and v3.0.1. Currently, the model is running on the older version, whereas the romanian model offered by spaCy is compatible only with v3.0.1. Why to use this model? It has a couple of overlapping enitity-types and pretrained vectors for them. This problem will be fixed in Stage 2.
+* The Romanian model "ro_model_news_lg" was not used because of the differences between spaCy v2.2.4. and v3.0.1. Currently, the model is running on the older version, whereas the Romanian model offered by spaCy is compatible only with v3.0.1. Why use this model? It has a couple of overlapping entity types and pre-trained vectors for them. This problem will be fixed in Stage 2.
 * The prf-values are representative for short sentences because there was a problem with the length of phrases from the train data. This problem will be fixed in Stage 1.
 
 ## Stage 1
@@ -158,10 +158,10 @@ The only problem with that is that it returns the score for all the tags togethe
 * Now it is possible to run the model with decent prf-values for longer texts.
 * The only modifications were related to the train data which was recomposed using two auxiliary projects: "Keep Name and Type" (C++) and "GoodIndex" (Java) - both present in the "Data Sets" directory.
 ### Remarks
-* Even though the performance seems to be increased significantly (based on the new prf-values) from Stage 0, it should be kept in mind the fact that the model still has flows.
+* Even though the performance seems to be increased significantly (based on the new prf-values) from Stage 0, it should be kept in mind the fact that the model still has flaws.
 ### Problems
-* As aforementioned, beginning with Stage 2, for some entities it will also be used the romanian model "ro_core_news_lg".
-* Overlapping entities are not allowed. There are still some entities missing from the train data, problem that will be solved in Stage 2.
+* As aforementioned, beginning with Stage 2, for some entities it will also be used the Romanian model "ro_core_news_lg".
+* Overlapping entities are not allowed. There are still some entities missing from the train data, a problem that will be solved in Stage 2.
 * At the moment, the solution would be to train the model independently for every type of entity because they won't overlap and it will be easier to use the "ro_core_news_lg" model for specific types.
 * There is also a problem related to multi-word entities.
 
@@ -173,7 +173,7 @@ Stage 2 is out and clarifies different aspects.
 ### Training
 Let's see how can we build a custom NER model in Spacy v3.0, using Spacy’s recommended Command Line Interface (CLI) method instead of the custom training loops that were typical in Spacy v2.
 #### Overview
-Essentially, in Spacy v3, there has been a shift toward training your model pipelines using the spacy train command on the command line instead of making your own training loop in Python. As a result of this, the old data formats (json etc.) that were used in Spacy v2 are no longer accepted and you have to convert your data into a new .spacy format. There are hence three main things that we will explore:
+Essentially, in Spacy v3, there has been a shift toward training your model pipelines using the spacy train command on the command line instead of making your training loop in Python. As a result of this, the old data formats (JSON etc.) that were used in Spacy v2 are no longer accepted and you have to convert your data into a new .spacy format. There are hence three main things that we will explore:
 * Updating your data from the old NER format to the new .spacy format
 * Using the CLI to train your data and configuring the training
 * Loading the model and predicting
@@ -223,16 +223,16 @@ db.to_disk("./train.spacy") # save the docbin object
 ```
 This helps to convert the file from your old Spacy v2 formats to the brand new Spacy v3 format.
 ##### Using the CLI to train your model
-In version 2, training of the model would be done internally within Python. However, Spacy has now released a spacy train command to be used with the CLI. They recommend that this be done because it is supposedly faster and helps with the evaluation/validation process. Furthermore, it comes with early stopping logic built in (whereas in Spacy v2, one would have to write a wrapper code to have early stopping).
+In version 2, training of the model would be done internally within Python. However, Spacy has now released a spacy train command to be used with the CLI. They recommend that this be done because it is supposedly faster and helps with the evaluation/validation process. Furthermore, it comes with early stopping logic built-in (whereas in Spacy v2, one would have to write a wrapper code to have early stopping).
 
-The only issue with using this new command is that the documentation for it is honestly not 100% there yet. The issue with not having documentation however, is that I sometimes struggled with knowing what exactly the outputs on the command line meant. However, they are extremely helpful on their Github discussion forum and I’ve always had good help there.
+The only issue with using this new command is that the documentation for it is honestly not 100% there yet. The issue with not having documentation, however, is that I sometimes struggled with knowing what exactly the outputs on the command line meant. However, they are extremely helpful on their Github discussion forum and I’ve always had good help there.
 
 The first step to using the CLI is getting a config file.
 
 ![image](https://user-images.githubusercontent.com/44003293/117616458-d4887480-b173-11eb-966c-74a83fc37095.png)
 
 * Filling in your config file
-The config file doesn’t come fully filled. Hence, the first command it should be run is:
+The config file doesn’t come filled. Hence, the first command it should be run is:
 
 ```CLI
 python -m spacy init fill-config base_config.cfg config.cfg
@@ -246,7 +246,7 @@ Make sure all three files are in the folder that you're running the CLI in.
 ```CLI
 python -m spacy train config.cfg --output ./output --paths.train ./train.spacy --paths.dev ./train.spacy
 ```
-This is the output that it should be roughly seen (it will change depending on your settings):
+This is the output that should be roughly seen (it will change depending on your settings):
 
 ![image](https://user-images.githubusercontent.com/44003293/117616942-82941e80-b174-11eb-8830-1e290eff8964.png)
 
@@ -256,9 +256,9 @@ Although there is no official documentation:
 * LOSS NER is the model loss
 * ENTS_F, ENTS_P, and ENTS_R are the precision, recall and fscore for the NER task
 
-The LOSS NER is calculated based on the test set while the ENTS_F etc. are calculated based on the evaluation dataset. Once the training is completed, Spacy will save the best model based on how you setup the config file (i.e. the section within the config file on scoring weights) and also the last model that was trained.
+The LOSS NER is calculated based on the test set while the ENTS_F etc. are calculated based on the evaluation dataset. Once the training is completed, Spacy will save the best model based on how you set up the config file (i.e. the section within the config file on scoring weights) and also the last model that was trained.
 ### How to use it
-The following file can be found at Stage 2/Stage 2 - v3/example.txt and ilustrates the commands necessary for accessing the Stage 2 model:
+The following file can be found at Stage 2/Stage 2 - v3/example.txt and illustrates the commands necessary for accessing the Stage 2 model:
 
 ```python
 Microsoft Windows [Version 10.0.19042.928]
@@ -272,7 +272,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> doc = nlp1("""
 ...
 ... ORDIN nr. 1.559 din 4 decembrie 2018
-... pentru modificarea anexei nr. 1 la Ordinul președintelui Casei Naționale de Asigurări de Sănătate nr. 141 / 2017 privind aprobarea formularelor specifice pentru verificarea respectării criteriilor de eligibilitate aferente protocoalelor terapeutice pentru medicamentele notate cu (**)1, (**)1Ω și (**)1β în Lista cuprinzând denumirile comune internaționale corespunzătoare medicamentelor de care beneficiază asigurații, cu sau fără contribuție personală, pe bază de prescripție medicală, în sistemul de asigurări sociale de sănătate, precum și denumirile comune internaționale corespunzătoare medicamentelor care se acordă în cadrul programelor naționale de sănătate, aprobată prin Hotărârea Guvernului nr. 720 / 2008, cu modificările și completările ulterioare, și a metodologiei de transmitere a acestora în platforma informatică din asigurările de sănătate
+... pentru modificarea anexei nr. 1 la Ordinul președintelui Casei Naționale de Asigurări de Sănătate nr. 141 / 2017 privind aprobarea formularelor specifice pentru verificarea respectării criteriilor de eligibilitate aferente protocoalelor terapeutice pentru medicamentele notate cu (**)1, (**)1Ω și (**)1β în Lista cuprinzând denumirile comune internaționale corespunzătoare medicamentelor de care beneficiază asigurații, cu sau fără contribuție personală, pe bază de prescripție medicală, în sistemul de asigurări sociale de sănătate, precum și denumirile comune internaționale corespunzătoare medicamentelor care se acordă în cadrul programelor naționale de sănătate, aprobată prin Hotărârea Guvernului nr. 720 / 2008, cu modificările și completările ulterioare, și a metodologiei de transmitere a acestora în platforma informatică din asigurările de sănătate
 ... [...]
 ... Prezentul ordin se publică în Monitorul Oficial al României, Partea I, și pe pagina web a Casei Naționale de Asigurări de Sănătate la adresa www.cnas.ro.
 ... p. Președintele Casei Naționale de Asigurări de Sănătate,
@@ -341,8 +341,8 @@ nr. LAW
 Note: I used "[...]" to mark the intentional removal of some rows.
 ### Desired modifications
 * Implementation of multi-word entities - for output
-* Using pretrained word embeddings - from Stage 3
-* Modyfing other elements from configuration file
+* Using pre-trained word embeddings - from Stage 3
+* Modifying other elements from the configuration file
 * Working on the TRAIN_DATA and TEST_DATA arrays
 ### Decision regarding future stages
 * As mentioned before, it will not be used the model ro_core_news_lg
@@ -351,19 +351,19 @@ Note: I used "[...]" to mark the intentional removal of some rows.
 ## Stage 3
 This stage successfully integrates word embeddings. Let's clarify some aspects about it:
 ### Differences from Stage 2
-* In order to include word embeddings, the base_config.cfg file generated on spaCy's website should prioritise "accuracy".
+* To include word embeddings, the base_config.cfg file generated on spaCy's website should prioritise "accuracy".
 * So, this time, we construct our base_config.cfg file as follows:
 
 ![image](https://user-images.githubusercontent.com/44003293/118612996-fbbff100-b7c6-11eb-9cf1-d2dceb95efe3.png)
 
-* For a better understanding, in this stage were used the word embeddings from spaCy - romanian language (also used in the preparation of ro_core_news_lg).
-* This did not require work on the word embeddings and format of the file, the purpose being to see how the model reaction to the introduction of pretrained variables.
+* For a better understanding, in this stage were used the word embeddings from spaCy - Romanian language (also used in the preparation of ro_core_news_lg).
+* This did not require work on the word embeddings and format of the file, the purpose being to see how the model reacted to the introduction of pre-trained variables.
 * The model is used in the same way as the one from Stage 2.
 ### Performance
 Example set of measurements on a short amount of data:
 * {'token_acc': 1.0, 'token_p': 1.0, 'token_r': 1.0, 'token_f': 1.0, 'sents_p': 1.0, 'sents_r': 1.0, 'sents_f': 1.0, 'tag_acc': None, 'pos_acc': None, 'morph_acc': None, 'morph_per_feat': None, 'dep_uas': None, 'dep_las': None, 'dep_las_per_type': None, 'ents_p': 0.9833333333333333, 'ents_r': 0.9365079365079365, 'ents_f': 0.9593495934959351, 'ents_per_type': {'LAW': {'p': 1.0, 'r': 1.0, 'f': 1.0}, 'LOC': {'p': 1.0, 'r': 0.6666666666666666, 'f': 0.8}, 'ORG': {'p': 0.9565217391304348, 'r': 0.9565217391304348, 'f': 0.9565217391304348}, 'TIME': {'p': 1.0, 'r': 1.0, 'f': 1.0}, 'PER': {'p': 1.0, 'r': 1.0, 'f': 1.0}}, 'cats_score': 0.0, 'cats_score_desc': 'macro F', 'cats_micro_p': 0.0, 'cats_micro_r': 0.0, 'cats_micro_f': 0.0, 'cats_macro_p': 0.0, 'cats_macro_r': 0.0, 'cats_macro_f': 0.0, 'cats_macro_auc': 0.0, 'cats_f_per_type': {}, 'cats_auc_per_type': {}}
 
-Set of measurements on all the gold data available that is not rendundant:
+Set of measurements on all the gold data available that is not redundant:
 * {'token_acc': 1.0, 'token_p': 1.0, 'token_r': 1.0, 'token_f': 1.0, 'sents_p': 1.0, 'sents_r': 1.0, 'sents_f': 1.0, 'tag_acc': None, 'pos_acc': None, 'morph_acc': None, 'morph_per_feat': None, 'dep_uas': None, 'dep_las': None, 'dep_las_per_type': None, 'ents_p': 0.9159751037344398, 'ents_r': 0.8547918683446273, 'ents_f': 0.8843264897346019, 'ents_per_type': {'LAW': {'p': 0.9313725490196079, 'r': 0.9344262295081968, 'f': 0.9328968903436988}, 'LOC': {'p': 0.9402985074626866, 'r': 0.7241379310344828, 'f': 0.8181818181818181}, 'ORG': {'p': 0.89419795221843, 'r': 0.8478964401294499, 'f': 0.8704318936877078}, 'TIME': {'p': 0.9277777777777778, 'r': 0.8434343434343434, 'f': 0.8835978835978836}, 'PER': {'p': 0.8431372549019608, 'r': 0.9148936170212766, 'f': 0.8775510204081632}}, 'cats_score': 0.0, 'cats_score_desc': 'macro F', 'cats_micro_p': 0.0, 'cats_micro_r': 0.0, 'cats_micro_f': 0.0, 'cats_macro_p': 0.0, 'cats_macro_r': 0.0, 'cats_macro_f': 0.0, 'cats_macro_auc': 0.0, 'cats_f_per_type': {}, 'cats_auc_per_type': {}}
 
 Evolution:
@@ -381,7 +381,7 @@ Evolution:
 ### Introduction
 SpaCy’s tagger, parser, text categorizer and many other components are powered by statistical models. Every “decision” these components make – for example, which part-of-speech tag to assign, or whether a word is a named entity – is a prediction based on the model’s current weight values. The weight values are estimated based on examples the model has seen during training. To train a model, you first need training data – examples of text, and the labels you want the model to predict. This could be a part-of-speech tag, a named entity or any other information.
 
-Training is an iterative process in which the model’s predictions are compared against the reference annotations in order to estimate the gradient of the loss. The gradient of the loss is then used to calculate the gradient of the weights through backpropagation. The gradients indicate how the weight values should be changed so that the model’s predictions become more similar to the reference labels over time.
+Training is an iterative process in which the model’s predictions are compared against the reference annotations to estimate the gradient of the loss. The gradient of the loss is then used to calculate the gradient of the weights through backpropagation. The gradients indicate how the weight values should be changed so that the model’s predictions become more similar to the reference labels over time.
 
 ![image](https://user-images.githubusercontent.com/44003293/114925003-3ab0fe80-9e37-11eb-8417-2016202a08d4.png)
 
@@ -390,28 +390,28 @@ Training is an iterative process in which the model’s predictions are compared
 * Label: The label the model should predict.
 * Gradient: The direction and rate of change for a numeric value. Minimising the gradient of the weights should result in predictions that are closer to the reference labels on the training data.
 
-When training a model, we don’t just want it to memorize our examples – we want it to come up with a theory that can be generalized across unseen data. After all, we don’t just want the model to learn that this one instance of “Amazon” right here is a company – we want it to learn that “Amazon”, in contexts like this, is most likely a company. That’s why the training data should always be representative of the data we want to process. A model trained on Wikipedia, where sentences in the first person are extremely rare, will likely perform badly on Twitter. Similarly, a model trained on romantic novels will likely perform badly on legal text.
+When training a model, we don’t just want it to memorize our examples – we want it to come up with a theory that can be generalized across unseen data. After all, we don’t just want the model to learn that this one instance of “Amazon” right here is a company – we want it to learn that “Amazon”, in contexts like this, is most likely a company. That’s why the training data should always be representative of the data we want to process. A model trained on Wikipedia, where sentences in the first person are extremely rare, will likely perform badly on Twitter. Similarly, a model trained in romantic novels will likely perform badly on legal text.
 
-This also means that in order to know how the model is performing, and whether it’s learning the right things, you don’t only need training data – you’ll also need evaluation data. If you only test the model with the data it was trained on, you’ll have no idea how well it’s generalizing. If you want to train a model from scratch, you usually need at least a few hundred examples for both training and evaluation.
+This also means that to know how the model is performing, and whether it’s learning the right things, you don’t only need training data – you’ll also need evaluation data. If you only test the model with the data it was trained on, you’ll have no idea how well it’s generalizing. If you want to train a model from scratch, you usually need at least a few hundred examples for both training and evaluation.
 
 ### Language processing pipelines
-When you call nlp on a text, spaCy first tokenizes the text to produce a Doc object. The Doc is then processed in several different steps – this is also referred to as the processing pipeline. The pipeline used by the default models consists of a tagger, a parser and an entity recognizer. Each pipeline component returns the processed Doc, which is then passed on to the next component.
+When you call NLP on a text, spaCy first tokenizes the text to produce a Doc object. The Doc is then processed in several different steps – this is also referred to as the processing pipeline. The pipeline used by the default models consists of a tagger, a parser and an entity recognizer. Each pipeline component returns the processed Doc, which is then passed on to the next component.
 
 ![image](https://user-images.githubusercontent.com/44003293/114925043-46042a00-9e37-11eb-9893-4b920010f592.png)
 
 * Name: ID of the pipeline component.
 * Component: spaCy’s implementation of the component.
-* Creates: Objects, attributes and properties modified and set by the component.
+* Creates Objects, attributes and properties modified and set by the component.
 
 ![image](https://user-images.githubusercontent.com/44003293/114922763-bf4e4d80-9e34-11eb-8055-96b49a409282.png)
 
-The processing pipeline always depends on the statistical model and its capabilities. For example, a pipeline can only include an entity recognizer component if the model includes data to make predictions of entity labels. This is why each model will specify the pipeline to use in its meta data, as a simple list containing the component names:
+The processing pipeline always depends on the statistical model and its capabilities. For example, a pipeline can only include an entity recognizer component if the model includes data to make predictions of entity labels. This is why each model will specify the pipeline to use in its metadata, as a simple list containing the component names:
 
 ```python
  "pipeline": ["tagger", "parser", "ner"]
 ```
 ### Processing text
-When you call nlp on a text, spaCy will tokenize it and then call each component on the Doc, in order. It then returns the processed Doc that you can work with.
+When you call NLP on a text, spaCy will tokenize it and then call each component on the Doc, in order. It then returns the processed Doc that you can work with.
 
 ```python
  doc = nlp("This is a text")
@@ -439,7 +439,7 @@ for doc in nlp.pipe(texts, disable=["tagger", "parser"]):
     print([(ent.text, ent.label_) for ent in doc.ents])
 ```
 ### How pipelines work
-spaCy makes it very easy to create your own pipelines consisting of reusable components – this includes spaCy’s default tagger, parser and entity recognizer, but also your own custom processing functions. A pipeline component can be added to an already existing nlp object, specified when initializing a Language class, or defined within a model package.
+spaCy makes it very easy to create your pipelines consisting of reusable components – this includes spaCy’s default tagger, parser and entity recognizer, but also your own custom processing functions. A pipeline component can be added to an already existing NLP object, specified when initializing a Language class or defined within a model package.
 
 When you load a model, spaCy first consults the model’s meta.json. The meta typically includes the model details, the ID of a language class, and an optional list of pipeline components. spaCy then does the following:
 
@@ -463,7 +463,7 @@ So when you call:
 ```python
  nlp = spacy.load("en_core_web_sm")
 ```
-he model’s meta.json tells spaCy to use the language "en" and the pipeline ["tagger", "parser", "ner"]. spaCy will then initialize spacy.lang.en.English, and create each pipeline component and add it to the processing pipeline. It’ll then load in the model’s data from its data directory and return the modified Language class for you to use as the nlp object.
+he model’s meta.json tells spaCy to use the language "en" and the pipeline ["tagger", "parser", "ner"]. spaCy will then initialize spacy.lang.en.English, and create each pipeline component and add it to the processing pipeline. It’ll then load in the model’s data from its data directory and return the modified Language class for you to use as the NLP object.
 
 Fundamentally, a spaCy model consists of three components: the weights, i.e. binary data loaded in from a directory, a pipeline of functions called in order, and language data like the tokenization rules and annotation scheme. All of this is specific to each model, and defined in the model’s meta.json – for example, a Romanian NER model requires different weights, language data and pipeline components than an English parsing and tagging model. This is also why the pipeline state is always held by the Language class. spacy.load puts this all together and returns an instance of Language with a pipeline set and access to the binary data:
 
@@ -482,7 +482,7 @@ for name in pipeline:
 nlp.from_disk(model_data_path)          # 5. Load in the binary data
 ```
 
-When you call nlp on a text, spaCy will tokenize it and then call each component on the Doc, in order. Since the model data is loaded, the components can access it to assign annotations to the Doc object, and subsequently to the Token and Span which are only views of the Doc, and don’t own any data themselves. All components return the modified document, which is then processed by the component next in the pipeline.
+When you call NLP on a text, spaCy will tokenize it and then call each component on the Doc, in order. Since the model data is loaded, the components can access it to assign annotations to the Doc object, and subsequently to the Token and Span which are only views of the Doc and don’t own any data themselves. All components return the modified document, which is then processed by the component next in the pipeline.
 
 "The pipeline under the hood":
 
@@ -525,7 +525,7 @@ Disable loading:
 nlp = spacy.load("en_core_web_sm", disable=["tagger", "parser"])
 nlp = English().from_disk("/model", disable=["ner"])
 ```
-If you only need a Doc object with named entities, there’s no need to run all pipeline components on it – that can potentially make processing much slower. Instead, you can use the disable keyword argument on nlp.pipe to temporarily disable the components during processing:
+If you only need a Doc object with named entities, there’s no need to run all pipeline components on it – that can potentially make processing much slower. Instead, you can use the disable keyword argument on the nlp.pipe to temporarily disable the components during processing:
 
 Disable for processing:
 
@@ -533,7 +533,7 @@ Disable for processing:
 for doc in nlp.pipe(texts, disable=["tagger", "parser"]):
     # Do something with the doc here
 ```
-If you need to execute more code with components disabled – e.g. to reset the weights or update only some components during training – you can use the nlp.disable_pipes contextmanager. At the end of the with block, the disabled pipeline components will be restored automatically. Alternatively, disable_pipes returns an object that lets you call its restore() method to restore the disabled components when needed.
+If you need to execute more code with components disabled – e.g. to reset the weights or update only some components during training – you can use the nlp.disable_pipes context manager. At the end of the block, the disabled pipeline components will be restored automatically. Alternatively, disable_pipes returns an object that lets you call its restore() method to restore the disabled components when needed.
 
 Disable for block:
 
@@ -568,7 +568,7 @@ def my_component(doc):
 
 ![image](https://user-images.githubusercontent.com/44003293/114986753-0ff99100-9e9d-11eb-87c4-ba9abdc47ea6.png)
 
-Custom components can be added to the pipeline using the add_pipe method. Optionally, you can either specify a component to add it before or after, tell spaCy to add it first or last in the pipeline, or define a custom name. If no name is set and no name attribute is present on your component, the function name is used.
+Custom components can be added to the pipeline using the add_pipe method. Optionally, you can either specify a component to add it before or after, tell spaCy to add it first or last in the pipeline or define a custom name. If no name is set and no name attribute is present on your component, the function name is used.
 
 Example:
 
@@ -587,7 +587,7 @@ Link: https://github.com/explosion/spaCy/blob/v2.x/examples/pipeline/custom_comp
 #!/usr/bin/env python
 # coding: utf8
 """Example of a spaCy v2.0 pipeline component that sets entity annotations
-based on list of single or multiple-word company names. Companies are
+based on a list of single or multiple-word company names. Companies are
 labelled as ORG and their spans are merged into one token. Additionally,
 ._.has_tech_org and ._.is_tech_org is set on the Doc/Span and Token
 respectively.
@@ -628,18 +628,14 @@ def main(text="Alphabet Inc. is the company behind Google.", *companies):
 
 
 class TechCompanyRecognizer(object):
-    """Example of a spaCy v2.0 pipeline component that sets entity annotations
-    based on list of single or multiple-word company names. Companies are
-    labelled as ORG and their spans are merged into one token. Additionally,
+    """Example of a spaCy v2.0 pipeline component that sets entity annotations based on a list of single or multiple-word company names. Companies are labelled as ORG and their spans are merged into one token. Additionally,
     ._.has_tech_org and ._.is_tech_org is set on the Doc/Span and Token
     respectively."""
 
     name = "tech_companies"  # component name, will show up in the pipeline
 
     def __init__(self, nlp, companies=tuple(), label="ORG"):
-        """Initialise the pipeline component. The shared nlp instance is used
-        to initialise the matcher with the shared vocab, get the label ID and
-        generate Doc objects as phrase match patterns.
+        """Initialise the pipeline component. The shared nlp instance is used to initialise the matcher with the shared vocab, get the label ID and generate Doc objects as phrase match patterns.
         """
         self.label = nlp.vocab.strings[label]  # get entity label ID
 
@@ -659,8 +655,7 @@ class TechCompanyRecognizer(object):
         Span.set_extension("has_tech_org", getter=self.has_tech_org)
 
     def __call__(self, doc):
-        """Apply the pipeline component on a Doc object and modify it if matches
-        are found. Return the Doc, so it can be processed by the next component
+        """Apply the pipeline component on a Doc object and modify it if matches are found. Return the Doc, so it can be processed by the next component
         in the pipeline, if available.
         """
         matches = self.matcher(doc)
@@ -682,8 +677,7 @@ class TechCompanyRecognizer(object):
         return doc  # don't forget to return the Doc!
 
     def has_tech_org(self, tokens):
-        """Getter for Doc and Span attributes. Returns True if one of the tokens
-        is a tech org. Since the getter is only called when we access the
+        """Getter for Doc and Span attributes. Returns True if one of the tokens is a tech org. Since the getter is only called when we access the
         attribute, we can refer to the Token's 'is_tech_org' attribute here,
         which is already set in the processing step."""
         return any([t._.get("is_tech_org") for t in tokens])
@@ -725,7 +719,7 @@ array([2.02280000e-01,  -7.66180009e-02,   3.70319992e-01,
 Training word vectors (by spaCy):
 
 ```
-Dense, real valued vectors representing distributional similarity information are now a cornerstone of practical NLP. The most common way to train these vectors is the Word2vec family of algorithms. If you need to train a word2vec model, we recommend the implementation in the Python library Gensim.
+Dense, real-valued vectors representing distributional similarity information are now a cornerstone of practical NLP. The most common way to train these vectors is the Word2vec family of algorithms. If you need to train a word2vec model, we recommend the implementation in the Python library Gensim.
 ```
 Models that come with built-in word vectors make them available as the Token.vector attribute. Doc.vector and Span.vector will default to an average of their token vectors. You can also check if a token has a vector assigned, and get the L2 norm, which can be used to normalize vectors.
 
@@ -746,9 +740,9 @@ The words “dog”, “cat” and “banana” are all pretty common in English
     Vector norm: The L2 norm of the token’s vector (the square root of the sum of the values squared)
     OOV: Out-of-vocabulary
 ```
-spaCy is able to compare two objects, and make a prediction of how similar they are. Predicting similarity is useful for building recommendation systems or flagging duplicates. For example, you can suggest a user content that’s similar to what they’re currently looking at, or label a support ticket as a duplicate if it’s very similar to an already existing one.
+spaCy can compare two objects, and predict how similar they are. Predicting similarity is useful for building recommendation systems or flagging duplicates. For example, you can suggest user content that’s similar to what they’re currently looking at, or label a support ticket as a duplicate if it’s very similar to an already existing one.
 
-Each Doc, Span and Token comes with a .similarity() method that lets you compare it with another object, and determine the similarity. Of course similarity is always subjective – whether “dog” and “cat” are similar really depends on how you’re looking at it. spaCy’s similarity model usually assumes a pretty general-purpose definition of similarity.
+Each Doc, Span and Token comes with a .similarity() method that lets you compare it with another object, and determine the similarity. Of course, the similarity is always subjective – whether “dog” and “cat” are similar depends on how you’re looking at it. spaCy’s similarity model usually assumes a pretty general-purpose definition of similarity.
 
 ```python
 import spacy
@@ -760,29 +754,29 @@ for token1 in tokens:
     for token2 in tokens:
         print(token1.text, token2.text, token1.similarity(token2))
 ```
-In this case, the model’s predictions are pretty on point. A dog is very similar to a cat, whereas a banana is not very similar to either of them. Identical tokens are obviously 100% similar to each other (just not always exactly 1.0, because of vector math and floating point imprecisions).
+In this case, the model’s predictions are pretty on point. A dog is very similar to a cat, whereas banana is not very similar to either of them. Identical tokens are 100% similar to each other (just not always exactly 1.0, because of vector math and floating-point imprecision).
 
 ### Customizing word vectors
 Word vectors let you import knowledge from raw text into your model. The knowledge is represented as a table of numbers, with one row per term in your vocabulary. If two terms are used in similar contexts, the algorithm that learns the vectors should assign them rows that are quite similar, while words that are used in different contexts will have quite different values. This lets you use the row-values assigned to the words as a kind of dictionary, to tell you some things about what the words in your text mean.
 
-Word vectors are particularly useful for terms which aren’t well represented in your labelled training data. For instance, if you’re doing named entity recognition, there will always be lots of names that you don’t have examples of. For instance, imagine your training data happens to contain some examples of the term “Microsoft”, but it doesn’t contain any examples of the term “Symantec”. In your raw text sample, there are plenty of examples of both terms, and they’re used in similar contexts. The word vectors make that fact available to the entity recognition model. It still won’t see examples of “Symantec” labelled as a company. However, it’ll see that “Symantec” has a word vector that usually corresponds to company terms, so it can make the inference.
+Word vectors are particularly useful for terms that aren’t well represented in your labelled training data. For instance, if you’re doing named entity recognition, there will always be lots of names that you don’t have examples of. For instance, imagine your training data happens to contain some examples of the term “Microsoft”, but it doesn’t contain any examples of the term “Symantec”. In your raw text sample, there are plenty of examples of both terms, and they’re used in similar contexts. The word vectors make that fact available to the entity recognition model. It still won’t see examples of “Symantec” labelled as a company. However, it’ll see that “Symantec” has a word vector that usually corresponds to company terms, so it can make the inference.
 
-In order to make best use of the word vectors, you want the word vectors table to cover a very large vocabulary. However, most words are rare, so most of the rows in a large word vectors table will be accessed very rarely, or never at all. You can usually cover more than 95% of the tokens in your corpus with just a few thousand rows in the vector table. However, it’s those 5% of rare terms where the word vectors are most useful. The problem is that increasing the size of the vector table produces rapidly diminishing returns in coverage over these rare terms.
+To make the best use of the word vectors, you want the word vectors table to cover a very large vocabulary. However, most words are rare, so most of the rows in a large word vectors table will be accessed very rarely, or never at all. You can usually cover more than 95% of the tokens in your corpus with just a few thousand rows in the vector table. However, it’s that 5% of rare terms where the word vectors are most useful. The problem is that increasing the size of the vector table produces rapidly diminishing returns in coverage over these rare terms.
 
 ### Training the named entity recognizer
-All spaCy models support online learning, so you can update a pretrained model with new examples. You’ll usually need to provide many examples to meaningfully improve the system — a few hundred is a good start, although more is better.
+All spaCy models support online learning, so you can update a pre-trained model with new examples. You’ll usually need to provide many examples to meaningfully improve the system — a few hundred is a good start, although more is better.
 
 You should avoid iterating over the same few examples multiple times, or the model is likely to “forget” how to annotate other examples. If you iterate over the same few examples, you’re effectively changing the loss function. The optimizer will find a way to minimize the loss on your examples, without regard for the consequences on the examples it’s no longer paying attention to. One way to avoid this “catastrophic forgetting” problem (https://explosion.ai/blog/pseudo-rehearsal-catastrophic-forgetting) is to “remind” the model of other examples by augmenting your annotations with sentences annotated with entities automatically recognized by the original model. Ultimately, this is an empirical process: you’ll need to experiment on your data to find a solution that works best for you.
 
 ### Updating the Named Entity Recognizer
-This example shows how to update spaCy’s entity recognizer with your own examples, starting off with an existing, pretrained model, or from scratch using a blank Language class. To do this, you’ll need example texts and the character offsets and labels of each entity contained in the texts.
+This example shows how to update spaCy’s entity recognizer with your examples, starting with an existing, pre-trained model, or from scratch using a blank Language class. To do this, you’ll need example texts and the character offsets and labels of each entity contained in the texts.
 
 Link: https://github.com/explosion/spaCy/blob/v2.x/examples/training/train_ner.py
 
 ```python
 #!/usr/bin/env python
 # coding: utf8
-"""Example of training spaCy's named entity recognizer, starting off with an
+"""Example of training spaCy's named entity recognizer, starting with an
 existing model or a blank model.
 
 For more details, see the documentation:
@@ -906,7 +900,7 @@ if __name__ == "__main__":
 * Test the model to make sure the entities in the training data are recognized correctly.
 
 ### Training an additional entity type
-This script shows how to add a new entity type ANIMAL to an existing pretrained NER model, or an empty Language class. To keep the example short and simple, only a few sentences are provided as examples. In practice, you’ll need many more — a few hundred would be a good start. You will also likely need to mix in examples of other entity types, which might be obtained by running the entity recognizer over unlabelled sentences, and adding their annotations to the training set.
+This script shows how to add a new entity type ANIMAL to an existing pre-trained NER model, or an empty Language class. To keep the example short and simple, only a few sentences are provided as examples. In practice, you’ll need many more — a few hundred would be a good start. You will also likely need to mix in examples of other entity types, which might be obtained by running the entity recognizer over unlabelled sentences and adding their annotations to the training set.
 
 Link: https://github.com/explosion/spaCy/blob/v2.x/examples/training/train_new_entity_type.py
 
@@ -915,12 +909,12 @@ Link: https://github.com/explosion/spaCy/blob/v2.x/examples/training/train_new_e
 # coding: utf8
 """Example of training an additional entity type
 
-This script shows how to add a new entity type to an existing pretrained NER
+This script shows how to add a new entity type to an existing pre-trained NER
 model. To keep the example short and simple, only four sentences are provided
 as examples. In practice, you'll need many more — a few hundred would be a
 good start. You will also likely need to mix in examples of other entity
 types, which might be obtained by running the entity recognizer over unlabelled
-sentences, and adding their annotations to the training set.
+sentences and adding their annotations to the training set.
 
 The actual training is performed by looping over the examples, and calling
 `nlp.entity.update()`. The `update()` method steps through the words of the
