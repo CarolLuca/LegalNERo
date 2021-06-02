@@ -26,7 +26,7 @@
   * [Differences from Stage 2](#differences-from-stage-2)
   * [Performance](#performance)
   * [Next steps](#next-steps)
-* [Stage 4](#stage-4)
+* [Version 1](#v1)
 * [Behind The Model](#behind-the-model) 
   * [Introduction](#introduction)
   * [Language processing pipelines](#language-processing-pipelines)
@@ -374,7 +374,7 @@ Evolution:
 * In stage 4, the word embeddings from CoRoLa will be used.
 * There will also be different verifications on how correct were the TRAIN_DATA and TEST_DATA constructed.
 
-## Stage 4
+## Version 1
 * Coming soon.
 
 ## Behind The Model
