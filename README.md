@@ -371,8 +371,8 @@ Evolution:
 ![image](https://user-images.githubusercontent.com/44003293/119690846-b64c9500-be52-11eb-828d-c26350afae67.png)
 
 ### Next steps
-* In stage 4, the word embeddings from CoRoLa will be used.
-* There will also be different verifications on how correct were the TRAIN_DATA and TEST_DATA constructed.
+* In version 1 or 2, the word embeddings from CoRoLa will be used.
+* There will also be different verifications on how the TRAIN_DATA and TEST_DATA were constructed.
 
 ## Version 1
 * Coming soon.
