@@ -26,7 +26,7 @@
   * [Differences from Stage 2](#differences-from-stage-2)
   * [Performance](#performance)
   * [Next steps](#next-steps)
-* [Version 1](#v1)
+* [Version 1](#version-1)
 * [Behind The Model](#behind-the-model) 
   * [Introduction](#introduction)
   * [Language processing pipelines](#language-processing-pipelines)
@@ -39,8 +39,8 @@
 ## News
 * Stage 3 is finished and it can be found in the directory with the same name.
 * Stage 3 uses the word embeddings pre-trained for ro_core_news_lg (not the model)
-* Stage 4 is coming soon.
-* The main focus of Stage 4 will be to include the word embeddings offered by CoRoLa.
+* Version 1 is coming soon.
+* The main focus of Version 1 will be either to include the word embeddings offered by CoRoLa or to use the full gold dataset.
 
 ## Preview
 In this project is developed a named entity recognition model for legal documents in Romanian using the SpaCy library.
@@ -53,7 +53,7 @@ This repository is divided as follows:
 * Stage 1 - model supposed to have the ability to run on longer texts
 * Stage 2 - intermediate model using v3 spaCy
 * Stage 3 - successfully integrated word embeddings
-* Stage 4 - coming soon
+* Version 1 - coming soon
 * Behind The Model - detailed explanations regarding the model functionality
 
 Each folder contains its Description.md file in which the content is resumed.
