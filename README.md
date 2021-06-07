@@ -1,4 +1,5 @@
 # Named Entity Recognition - Romanian Legal Domain
+Research Institute for Artificial Intelligence, Romanian Academy (RACAI)
 ## Table of contents
 * [News](#news)
 * [Preview](#preview)
