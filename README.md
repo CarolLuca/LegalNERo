@@ -27,8 +27,9 @@ Research Institute for Artificial Intelligence, Romanian Academy (RACAI)
   * [Differences from Stage 2](#differences-from-stage-2)
   * [Performance](#performance)
   * [Next steps](#next-steps)
-* [Version 1](#version-1)
-* [Version 2](#version-2)
+* [Versions](#versions)
+  * [Version 1](#version-1)
+  * [Version 2](#version-2)
 * [Behind The Model](#behind-the-model) 
   * [Introduction](#introduction)
   * [Language processing pipelines](#language-processing-pipelines)
@@ -373,9 +374,10 @@ Evolution:
 * In version 1 or 2, the word embeddings from CoRoLa will be used.
 * There will also be different verifications on how the TRAIN_DATA and TEST_DATA were constructed.
 
-## Version 1
+## Versions
+### Version 1
 
-## Version 2
+### Version 2
 
 ## Behind The Model
 ### Introduction
