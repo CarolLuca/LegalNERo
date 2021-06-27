@@ -53,7 +53,7 @@ This repository is divided as follows:
 * Stage 1 - model supposed to have the ability to run on longer texts
 * Stage 2 - intermediate model using v3 spaCy
 * Stage 3 - successfully integrated word embeddings
-* Version 1 - coming soon
+* Versions - all the final versions
 * Behind The Model - detailed explanations regarding the model functionality
 
 Each folder contains its Description.md file in which the content is resumed.
