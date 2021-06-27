@@ -28,6 +28,7 @@ Research Institute for Artificial Intelligence, Romanian Academy (RACAI)
   * [Performance](#performance)
   * [Next steps](#next-steps)
 * [Version 1](#version-1)
+* [Version 2](#version-2)
 * [Behind The Model](#behind-the-model) 
   * [Introduction](#introduction)
   * [Language processing pipelines](#language-processing-pipelines)
@@ -38,10 +39,7 @@ Research Institute for Artificial Intelligence, Romanian Academy (RACAI)
   * [Training the named entity recognizer](#training-the-named-entity-recognizer)
 
 ## News
-* Stage 3 is finished and it can be found in the directory with the same name.
-* Stage 3 uses the word embeddings pre-trained for ro_core_news_lg (not the model)
-* Version 1 is coming soon.
-* The main focus of Version 1 will be either to include the word embeddings offered by CoRoLa or to use the full gold dataset.
+* The first two official versions are published.
 
 ## Preview
 In this project is developed a named entity recognition model for legal documents in Romanian using the SpaCy library.
@@ -376,7 +374,8 @@ Evolution:
 * There will also be different verifications on how the TRAIN_DATA and TEST_DATA were constructed.
 
 ## Version 1
-* Coming soon.
+
+## Version 2
 
 ## Behind The Model
 ### Introduction
