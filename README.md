@@ -29,7 +29,9 @@ Research Institute for Artificial Intelligence, Romanian Academy (RACAI)
   * [Next steps](#next-steps)
 * [Versions](#versions)
   * [Version 1](#version-1)
+  * [Version 1.1](#version-1.1)
   * [Version 2](#version-2)
+  * [Version 3](#version-3)
 * [Behind The Model](#behind-the-model) 
   * [Introduction](#introduction)
   * [Language processing pipelines](#language-processing-pipelines)
@@ -377,7 +379,11 @@ Evolution:
 ## Versions
 ### Version 1
 
+### Version 1.1
+
 ### Version 2
+
+### Version 3
 
 ## Behind The Model
 ### Introduction
